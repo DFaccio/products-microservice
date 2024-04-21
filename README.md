@@ -1,0 +1,1 @@
+Microsserviço a para gestão de produtos e estoque de um marketplace
