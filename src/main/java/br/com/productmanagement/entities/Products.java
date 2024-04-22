@@ -1,15 +1,20 @@
-package br.com.productmanagement.productManagement.entities;
+package br.com.productmanagement.entities;
 
-import br.com.productmanagement.productManagement.util.enums.ProductCategory;
+import br.com.productmanagement.util.enums.ProductCategory;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.UUID;
 
+@Data
 @Entity
 @Table(name="Products")
-@Data
-public class Products {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Products implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -71,7 +76,7 @@ public class Products {
     private double packagingWeight;
 
     @OneToOne
-    @JoinColumn(name = "discount_Id")
+    @JoinColumn(name = "discount_id")
     private Discount discount;
 
 }

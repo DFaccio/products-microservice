@@ -1,4 +1,4 @@
-package br.com.productmanagement.productManagement.util.pagination;
+package br.com.productmanagement.util.pagination;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

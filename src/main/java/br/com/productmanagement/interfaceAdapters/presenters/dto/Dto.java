@@ -1,4 +1,4 @@
-package br.com.productmanagement.productManagement.interfaceAdapters.presenters.dto;
+package br.com.productmanagement.interfaceAdapters.presenters.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;

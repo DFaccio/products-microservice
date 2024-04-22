@@ -1,10 +1,9 @@
-package br.com.productmanagement.productManagement.interfaceAdapters.presenters.dto;
+package br.com.productmanagement.interfaceAdapters.presenters.dto;
 
-import br.com.productmanagement.productManagement.util.enums.ProductCategory;
+import br.com.productmanagement.util.enums.ProductCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,79 +18,81 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductDto extends Dto implements Serializable {
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "Creatina Max")
     private String name;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "Creatina Max Titanium")
     private String description;
 
-    @NotEmpty
+    @NotNull
     @Schema(example = "SAUDE")
     private ProductCategory productCategory;
 
-    @NotEmpty
+    @NotNull
     @Schema(example = "true")
     private boolean available;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "10")
     private Integer availableQuantity;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "Branco")
     private String color;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "https://http2.mlstatic.com/D_NQ_NP_941774-MLA52624902588_112022-O.webp")
     private String imageURL;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "Max Titanium")
     private String supplier;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "Max Titanium")
     private String brand;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "30,00")
     private double price;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "12")
     private double productHeight;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "13")
     private double productWidth;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "13")
     private double productDepth;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "300")
     private double productWeight;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "15")
     private double packagingHeight;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "15")
     private double packagingWidth;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "15")
     private double packagingDepth;
 
-    @NotEmpty
+    @NotBlank
     @Schema(example = "350")
     private double packagingWeight;
 
-    @Schema(example = "123e4567-e89b-12d3-a456-426655440000")
-    private UUID discount;
+    private DiscountDto discountDto;
+
+    public ProductDto(UUID productId, String name, String description, ProductCategory productCategory, boolean available, Integer availableQuantity, String color, String imageURL, String supplier, String brand, double price, double productHeight, double productWidth, double productDepth, double productWeight, double packagingHeight, double packagingWidth, double packagingDepth, double packagingWeight) {
+    }
 
 }
