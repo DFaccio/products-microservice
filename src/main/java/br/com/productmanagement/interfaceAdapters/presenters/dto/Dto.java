@@ -13,7 +13,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(value = {"id"}, allowGetters = true)
 public class Dto {
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -33,16 +32,16 @@ public class DiscountDto extends Dto implements Serializable {
     private String description;
 
     @NotNull
-    @Schema(example = "2")
+    @Schema(example = "2.0")
     private double discountValue;
 
     @NotNull
     @Schema(example = "2024-05-05")
-    private LocalDate discountStartDate;
+    private LocalDateTime discountStartDate;
 
     @NotNull
     @Schema(example = "2024-05-25")
-    private LocalDate discountFinishDate;
+    private LocalDateTime discountFinishDate;
 
     @Schema(example = "3")
     private int minimumQuantityToDiscount;
@@ -55,6 +54,17 @@ public class DiscountDto extends Dto implements Serializable {
     @Schema(example = "true")
     private boolean active;
 
-    public DiscountDto(UUID discountId, String coupon, DiscountType discountType, String description, double discountValue, LocalDateTime discountStartDate, LocalDateTime discountFinishDate, int minimumQuantityToDiscount, ProductCategory productCategory, boolean active) {
+    public DiscountDto(UUID id, String coupon, DiscountType discountType, String description, double discountValue, LocalDateTime discountStartDate, LocalDateTime discountFinishDate, int minimumQuantityToDiscount, ProductCategory productCategory, boolean active) {
+        super(id);
+        this.coupon = coupon;
+        this.discountType = discountType;
+        this.description = description;
+        this.discountValue = discountValue;
+        this.discountStartDate = discountStartDate;
+        this.discountFinishDate = discountFinishDate;
+        this.minimumQuantityToDiscount = minimumQuantityToDiscount;
+        this.productCategory = productCategory;
+        this.active = active;
     }
+
 }

@@ -10,34 +10,40 @@ public class DiscountPresenter implements Presenter<Discount, DiscountDto>{
     @Override
     public DiscountDto convert(Discount document){
 
-    return new DiscountDto(
-            document.getDiscountId(),
-            document.getCoupon(),
-            document.getDiscountType(),
-            document.getDescription(),
-            document.getDiscountValue(),
-            document.getDiscountStartDate(),
-            document.getDiscountFinishDate(),
-            document.getMinimumQuantityToDiscount(),
-            document.getProductCategory(),
-            document.isActive()
-    );
+        DiscountDto discountDto = new DiscountDto();
+
+        discountDto.setId(document.getDiscountId());
+        discountDto.setCoupon(document.getCoupon());
+        discountDto.setDiscountType(document.getDiscountType());
+        discountDto.setDescription(document.getDescription());
+        discountDto.setDiscountValue(document.getDiscountValue());
+        discountDto.setDiscountStartDate(document.getDiscountStartDate());
+        discountDto.setDiscountFinishDate(document.getDiscountFinishDate());
+        discountDto.setMinimumQuantityToDiscount(document.getMinimumQuantityToDiscount());
+        discountDto.setProductCategory(document.getProductCategory());
+        discountDto.setActive(document.isActive());
+
+        return discountDto;
 
     }
 
     public Discount convert(DiscountDto dto){
 
-        return new Discount(
-                dto.getCoupon(),
-                dto.getDiscountType(),
-                dto.getDescription(),
-                dto.getDiscountValue(),
-                dto.getDiscountStartDate(),
-                dto.getDiscountFinishDate(),
-                dto.getMinimumQuantityToDiscount(),
-                dto.getProductCategory(),
-                dto.isActive()
-        );
+        Discount discount = new Discount();
+
+        discount.setDiscountId(dto.getId());
+        discount.setCoupon(dto.getCoupon());
+        discount.setDiscountType(dto.getDiscountType());
+        discount.setDescription(dto.getDescription());
+        discount.setDiscountValue(dto.getDiscountValue());
+        discount.setDiscountStartDate(dto.getDiscountStartDate());
+        discount.setDiscountFinishDate(dto.getDiscountFinishDate());
+        discount.setMinimumQuantityToDiscount(dto.getMinimumQuantityToDiscount());
+        discount.setProductCategory(dto.getProductCategory());
+        discount.setActive(dto.isActive());
+
+        return discount;
+
     }
 
 }

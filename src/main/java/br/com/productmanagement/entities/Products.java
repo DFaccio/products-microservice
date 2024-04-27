@@ -3,13 +3,15 @@ package br.com.productmanagement.entities;
 import br.com.productmanagement.util.enums.ProductCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="Products")
 @AllArgsConstructor
@@ -31,6 +33,9 @@ public class Products implements Serializable {
     private ProductCategory productCategory;
 
     @Column
+    private String model;
+
+    @Column
     private boolean available;
 
     @Column
@@ -38,6 +43,9 @@ public class Products implements Serializable {
 
     @Column
     private String color;
+
+    @Column
+    private String size;
 
     @Column
     private String imageURL;
@@ -75,7 +83,10 @@ public class Products implements Serializable {
     @Column
     private double packagingWeight;
 
-    @OneToOne
+    @Column
+    private String sku;
+
+    @ManyToOne
     @JoinColumn(name = "discount_id")
     private Discount discount;
 

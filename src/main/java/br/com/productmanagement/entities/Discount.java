@@ -3,16 +3,21 @@ package br.com.productmanagement.entities;
 import br.com.productmanagement.util.enums.DiscountType;
 import br.com.productmanagement.util.enums.ProductCategory;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name="Discount")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Discount implements Serializable {
 
     @Id
@@ -47,6 +52,4 @@ public class Discount implements Serializable {
     @Column
     private boolean active;
 
-    public Discount(String coupon, DiscountType discountType, String description, double discountValue, LocalDate discountStartDate, LocalDate discountFinishDate, int minimumQuantityToDiscount, ProductCategory productCategory, boolean active) {
-    }
 }
