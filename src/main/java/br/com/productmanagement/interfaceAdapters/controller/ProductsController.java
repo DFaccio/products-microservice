@@ -1,10 +1,17 @@
 package br.com.productmanagement.interfaceAdapters.controller;
 
+import br.com.productmanagement.entities.Discount;
 import br.com.productmanagement.entities.Products;
 import br.com.productmanagement.interfaceAdapters.gateways.DiscountGateway;
 import br.com.productmanagement.interfaceAdapters.gateways.ProductsGateway;
+import br.com.productmanagement.interfaceAdapters.helper.ProductDiscountHelper;
 import br.com.productmanagement.interfaceAdapters.presenters.ProductPresenter;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
+import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductOrderDto;
+import br.com.productmanagement.usercase.ProductsBusiness;
+import br.com.productmanagement.util.SkuGenerator;
+import br.com.productmanagement.util.enums.UpdateType;
+import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
 import br.com.productmanagement.util.pagination.Pagination;
 import jakarta.annotation.Resource;
@@ -25,7 +32,53 @@ public class ProductsController {
     @Resource
     private ProductPresenter productPresenter;
 
-    public PagedResponse<ProductDto> findAll(Pagination pagination){
+    @Resource
+    private ProductsBusiness productsBusiness;
+
+    @Resource
+    private ProductDiscountHelper productDiscountHelper;
+
+    @Resource
+    private SkuGenerator skuGenerator;
+
+    public ProductDto insert(ProductDto dto) throws ValidationsException {
+
+        Products products = productPresenter.convert(dto);
+
+        String sku;
+
+        if(products.getSku().isEmpty()) {
+
+            sku = skuGenerator.generateSku(products.getProductCategory().toString(),
+                    products.getBrand(),
+                    products.getName(),
+                    products.getModel(),
+                    products.getColor(),
+                    products.getSize());
+
+            products.setSku(sku);
+
+        }else{
+
+            sku = products.getSku();
+
+        }
+
+        Products productUpd = productsGateway.findBySku(sku);
+
+        if(productUpd != null){
+
+            products = productsBusiness.updateSku(products, productUpd);
+
+        }
+
+        products = productsGateway.save(products);
+
+        return productPresenter.convert(products);
+
+    }
+
+    public PagedResponse<ProductDto> findAll(Pagination pagination) throws ValidationsException {
 
         Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getPageSize());
 
@@ -35,11 +88,59 @@ public class ProductsController {
 
     }
 
-    public ProductDto insert(ProductDto dto){
+    public ProductDto findBySku(String sku) throws ValidationsException {
 
-        Products products = productPresenter.convert(dto);
+        Products products = productsGateway.findBySku(sku);
 
-        return productPresenter.convert(productsGateway.insert(products));
+        if(products == null){
+            throw new ValidationsException("0100", "SKU", sku);
+        }
+
+        Discount discount = new Discount();
+
+        discount = productDiscountHelper.validadeProductDiscount(products);
+
+        products.setDiscount(discount);
+
+//        se tiver discountId, chama findById do discount, depois chama método pra validar o desconto
+//        se não tiver discountId ou não estiver válido, chama o findByCategory, depois chama método pra validar o desconto
+//        ProductDto productDto = productsBusiness.validadeProductDiscount(products.get());
+
+        return productPresenter.convert(products);
+
+    }
+
+    public ProductOrderDto updateSkuOnNewOrder(String sku, int orderQuantity) throws ValidationsException {
+
+        ProductDto productDto = findBySku(sku);
+
+        int productQuantity = productDto.getAvailableQuantity();
+
+        if(!productsBusiness.checkAvailableQuantity(productQuantity, orderQuantity)){
+            throw new ValidationsException("0101", "produto", sku);
+        }
+
+        ProductOrderDto productOrderDto = productsBusiness.returnProductOrderValues(productDto, orderQuantity);
+
+        Products products = productPresenter.convert(productDto);
+
+        products = productsBusiness.updateProductKeeping(products, productQuantity, orderQuantity, UpdateType.SELL);
+
+        productsGateway.save(products);
+
+        return productOrderDto;
+
+    }
+
+    public void updateSkuOnOrderCancellation(String sku, int orderQuantity) throws ValidationsException {
+
+        Products products = productsGateway.findBySku(sku);
+
+        int productQuantity = products.getAvailableQuantity();
+
+        products = productsBusiness.updateProductKeeping(products, productQuantity, orderQuantity, UpdateType.ORDER_CANCELLATION);
+
+        productsGateway.save(products);
 
     }
 

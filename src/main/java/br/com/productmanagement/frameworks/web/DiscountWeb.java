@@ -2,6 +2,8 @@ package br.com.productmanagement.frameworks.web;
 
 import br.com.productmanagement.interfaceAdapters.controller.DiscountController;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.DiscountDto;
+import br.com.productmanagement.util.enums.ProductCategory;
+import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
 import br.com.productmanagement.util.pagination.Pagination;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "/discounts")
 @Tag(name = "Descontos", description = "Exibe os métodos para cadastro e controle de descontos")
@@ -19,6 +23,14 @@ public class DiscountWeb {
 
     @Resource
     private DiscountController discountController;
+
+    @Operation(summary = "Insere um novo desconto")
+    @PutMapping
+    public ResponseEntity<DiscountDto> insert(@Valid @RequestBody DiscountDto dto){
+
+        return ResponseEntity.ok(discountController.insert(dto));
+
+    }
 
     @Operation(summary = "Consultar todos os descontos")
     @GetMapping
@@ -32,11 +44,27 @@ public class DiscountWeb {
 
     }
 
-    @Operation(summary = "Insere um novo desconto")
-    @PutMapping
-    public ResponseEntity<DiscountDto> insert(@Valid @RequestBody DiscountDto dto){
+    @Operation(summary = "Consulta desconto por id")
+    @GetMapping
+    public ResponseEntity<DiscountDto> findById(@PathVariable UUID id) throws ValidationsException {
 
-        return ResponseEntity.ok(discountController.insert(dto));
+        return ResponseEntity.ok(discountController.findById(id));
+
+    }
+
+    @Operation(summary = "Consulta desconto por cupom")
+    @GetMapping
+    public ResponseEntity<DiscountDto> findByCoupon(@PathVariable String coupon) throws ValidationsException {
+
+        return ResponseEntity.ok(discountController.findByCoupon(coupon));
+
+    }
+
+    @Operation(summary = "Consulta desconto por categoria de produto")
+    @GetMapping
+    public ResponseEntity<DiscountDto> findByProductCategory(@PathVariable ProductCategory category) throws ValidationsException {
+
+        return ResponseEntity.ok(discountController.findByProductCategory(category));
 
     }
 

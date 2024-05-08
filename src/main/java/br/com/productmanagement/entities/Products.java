@@ -24,6 +24,9 @@ public class Products implements Serializable {
     private UUID productId;
 
     @Column
+    private String sku;
+
+    @Column
     private String name;
 
     @Column
@@ -82,9 +85,6 @@ public class Products implements Serializable {
 
     @Column
     private double packagingWeight;
-
-    @Column
-    private String sku;
 
     @ManyToOne
     @JoinColumn(name = "discount_id")

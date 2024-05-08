@@ -22,6 +22,9 @@ public class ProductDto extends Dto implements Serializable {
     @Schema(example = "Creatina")
     private String name;
 
+    @Schema(example = "SAU-MAXT-CRE-MAX-BRA-000")
+    private String sku;
+
     @NotBlank
     @Schema(example = "Creatina Max Titanium, mais energia para o seu treino")
     private String description;
@@ -97,9 +100,6 @@ public class ProductDto extends Dto implements Serializable {
     @NotNull
     @Schema(example = "350.7")
     private double packagingWeight;
-
-    @Schema(example = "SAU-MAXT-CRE-MAX-BRA-000")
-    private String sku;
 
     private DiscountDto discount;
 
