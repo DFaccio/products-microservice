@@ -66,7 +66,7 @@ public class ProductDiscountHelper {
         LocalDateTime today = LocalDateTime.now();
 
 
-        if(!today.isAfter(discount.getDiscountStartDate()) && today.isBefore(discount.getDiscountFinishDate())){
+        if(!today.isAfter(discount.getDiscountStartDate()) && !today.isBefore(discount.getDiscountFinishDate())){
 
             return null;
 

@@ -6,9 +6,7 @@ import br.com.productmanagement.util.enums.ProductCategory;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.cdi.CdiRepositoryExtensionSupport;
 import org.springframework.stereotype.Service;
-import org.springframework.util.JdkIdGenerator;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -19,15 +17,15 @@ public class DiscountGateway {
     @Resource
     private DiscountRepository discountRepository;
 
-    public Page<Discount> findAll(Pageable pageable){
+    public Discount save(Discount discount){
 
-        return discountRepository.findAll(pageable);
+        return discountRepository.save(discount);
 
     }
 
-    public Discount insert(Discount discount){
+    public Page<Discount> findAll(Pageable pageable){
 
-        return discountRepository.save(discount);
+        return discountRepository.findAll(pageable);
 
     }
 

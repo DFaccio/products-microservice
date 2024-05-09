@@ -44,7 +44,7 @@ public class DiscountDto extends Dto implements Serializable {
     private LocalDateTime discountFinishDate;
 
     @Schema(example = "3")
-    private int minimumQuantityToDiscount;
+    private Integer minimumQuantityToDiscount;
 
     @NotNull
     @Schema(example = "SAUDE")

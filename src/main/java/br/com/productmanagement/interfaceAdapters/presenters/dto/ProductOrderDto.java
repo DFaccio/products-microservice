@@ -16,14 +16,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductOrderDto {
 
-    @NotBlank
-    @Schema(example = "SAU-MAXT-CRE-MAX-BRA-000")
     private String sku;
 
     private String name;
 
-    @NotNull
-    @Schema(example = "10")
     private Integer orderQuantity;
 
     private double orderValue;

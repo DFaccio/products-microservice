@@ -18,6 +18,7 @@ public class ProductPresenter implements Presenter<Products, ProductDto>{
 
         productDto.setId(document.getProductId());
         productDto.setName(document.getName());
+        productDto.setSku(document.getSku());
         productDto.setDescription(document.getDescription());
         productDto.setProductCategory(document.getProductCategory());
         productDto.setModel(document.getModel());
@@ -37,8 +38,9 @@ public class ProductPresenter implements Presenter<Products, ProductDto>{
         productDto.setPackagingWidth(document.getPackagingWidth());
         productDto.setPackagingDepth(document.getPackagingDepth());
         productDto.setPackagingWeight(document.getPackagingWeight());
-        productDto.setSku(document.getSku());
-        productDto.setDiscount(discountPresenter.convert(document.getDiscount()));
+        if(document.getDiscount() != null) {
+            productDto.setDiscount(discountPresenter.convert(document.getDiscount()));
+        }
 
         return productDto;
 
@@ -50,6 +52,7 @@ public class ProductPresenter implements Presenter<Products, ProductDto>{
 
         products.setProductId(dto.getId());
         products.setName(dto.getName());
+        products.setSku(dto.getSku());
         products.setDescription(dto.getDescription());
         products.setProductCategory(dto.getProductCategory());
         products.setModel(dto.getModel());
@@ -69,8 +72,9 @@ public class ProductPresenter implements Presenter<Products, ProductDto>{
         products.setPackagingWidth(dto.getPackagingWidth());
         products.setPackagingDepth(dto.getPackagingDepth());
         products.setProductWeight(dto.getPackagingWeight());
-        products.setSku(dto.getSku());
-        products.setDiscount(discountPresenter.convert(dto.getDiscount()));
+        if(dto.getDiscount() != null) {
+            products.setDiscount(discountPresenter.convert(dto.getDiscount()));
+        }
 
         return products;
 

@@ -33,6 +33,7 @@ public class Products implements Serializable {
     private String description;
 
     @Column
+    @Enumerated(value = EnumType.STRING)
     private ProductCategory productCategory;
 
     @Column

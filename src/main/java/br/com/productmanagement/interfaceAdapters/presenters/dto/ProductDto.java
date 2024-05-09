@@ -18,12 +18,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductDto extends Dto implements Serializable {
 
+    @Schema(example = "SAU-MAXT-CRE-MAX-BRA-000")
+    private String sku;
+
     @NotBlank
     @Schema(example = "Creatina")
     private String name;
-
-    @Schema(example = "SAU-MAXT-CRE-MAX-BRA-000")
-    private String sku;
 
     @NotBlank
     @Schema(example = "Creatina Max Titanium, mais energia para o seu treino")

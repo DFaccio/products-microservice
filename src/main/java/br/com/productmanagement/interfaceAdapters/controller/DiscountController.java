@@ -4,6 +4,7 @@ import br.com.productmanagement.entities.Discount;
 import br.com.productmanagement.interfaceAdapters.gateways.DiscountGateway;
 import br.com.productmanagement.interfaceAdapters.presenters.DiscountPresenter;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.DiscountDto;
+import br.com.productmanagement.usercase.DiscountBusiness;
 import br.com.productmanagement.util.enums.ProductCategory;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
@@ -24,13 +25,32 @@ public class DiscountController {
     private DiscountGateway discountGateway;
 
     @Resource
+    private DiscountBusiness discountBusiness;
+
+    @Resource
     private DiscountPresenter discountPresenter;
 
     public DiscountDto insert(DiscountDto dto){
 
         Discount discount = discountPresenter.convert(dto);
 
-        return discountPresenter.convert(discountGateway.insert(discount));
+        return discountPresenter.convert(discountGateway.save(discount));
+
+    }
+
+    public DiscountDto update(UUID id, DiscountDto dto) throws ValidationsException {
+
+        Optional<Discount> optional = discountGateway.findById(id);
+
+        if(optional.isEmpty()){
+            throw new ValidationsException("0200", "cupom", id.toString());
+        }
+
+        Discount discountUpd = discountBusiness.update(optional.get(), dto);
+
+        discountUpd = discountGateway.save(discountUpd);
+
+        return discountPresenter.convert(discountGateway.save(discountUpd));
 
     }
 
@@ -44,11 +64,14 @@ public class DiscountController {
 
     }
 
+    //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
+
     public DiscountDto findByCoupon(String coupon) throws ValidationsException {
 
         Optional<Discount> optional = discountGateway.findByCoupon(coupon);
 
         if(optional.isEmpty()){
+//            throw new IllegalArgumentException(MessageUtil.getMessage("0200", "cupom", coupon));
             throw new ValidationsException("0200", "cupom", coupon);
         }
 
@@ -57,6 +80,8 @@ public class DiscountController {
         return discountPresenter.convert(discount);
 
     }
+
+    //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
 
     public DiscountDto findById(UUID id) throws ValidationsException {
 
@@ -71,6 +96,8 @@ public class DiscountController {
         return discountPresenter.convert(discount);
 
     }
+
+    //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
 
     public DiscountDto findByProductCategory(ProductCategory category) throws ValidationsException {
 

@@ -4,7 +4,7 @@ import br.com.productmanagement.entities.Products;
 import br.com.productmanagement.interfaceAdapters.helper.ProductDiscountHelper;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductOrderDto;
-import br.com.productmanagement.util.enums.UpdateType;
+import br.com.productmanagement.util.enums.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -19,16 +19,17 @@ public class ProductsBusiness {
 
         Products actualProduct = productUpd;
 
-        if(products.getAvailableQuantity() > 0 ){
+        if(products.getAvailableQuantity() != null
+        && products.getAvailableQuantity() > 0 ){
 
 //            int availableQuantity = products.getAvailableQuantity() + productUpd.getAvailableQuantity();
 //
 //            actualProduct.setAvailableQuantity(availableQuantity);
-            actualProduct = updateProductKeeping(products, products.getAvailableQuantity(), productUpd.getAvailableQuantity(), UpdateType.SELL);
+            actualProduct = updateProductKeeping(actualProduct, products.getAvailableQuantity(), productUpd.getAvailableQuantity(), Operation.ARRIVAL);
 
         }
 
-        if(products.getDiscount().getDiscountId() != null){
+        if(products.getDiscount() != null){
 
             actualProduct.setDiscount(products.getDiscount());
 
@@ -37,6 +38,15 @@ public class ProductsBusiness {
         if(products.getPrice() != productUpd.getPrice()){
 
             actualProduct.setPrice(products.getPrice());
+
+        }
+
+//        ARRUMAR, MESMO ESTANDO IGUAL ESTÁ CAINDO AQUI
+
+        if(products.getDescription() != null
+        && products.getDescription() != productUpd.getDescription()){
+
+            actualProduct.setDescription(products.getDescription());
 
         }
 
@@ -82,21 +92,23 @@ public class ProductsBusiness {
         boolean available = false;
 
         if(productQuantity >= orderQuantity){
+
             available = true;
+
         }
 
         return available;
 
     }
-    public Products updateProductKeeping(Products products, int productQuantity, int updateQuantity, UpdateType updateType){
+    public Products updateProductKeeping(Products products, int productQuantity, int updateQuantity, Operation operation){
 
-        if(updateType == UpdateType.SELL){
+        if(operation == Operation.SALE){
 
             products.setAvailableQuantity(productQuantity - updateQuantity);
 
         }
 
-        if(updateType == UpdateType.ARRIVAL || updateType == UpdateType.ORDER_CANCELLATION){
+        if(operation == Operation.ARRIVAL || operation == Operation.ORDER_CANCELLATION){
 
             products.setAvailableQuantity(productQuantity + updateQuantity);
 

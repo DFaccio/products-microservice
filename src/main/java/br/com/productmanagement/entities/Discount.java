@@ -29,6 +29,7 @@ public class Discount implements Serializable {
     private String coupon;
 
     @Column
+    @Enumerated(value = EnumType.STRING)
     private DiscountType discountType;
 
     @Column
@@ -44,9 +45,10 @@ public class Discount implements Serializable {
     private LocalDateTime discountFinishDate;
 
     @Column
-    private int minimumQuantityToDiscount;
+    private Integer minimumQuantityToDiscount;
 
     @Column
+    @Enumerated(value = EnumType.STRING)
     private ProductCategory productCategory;
 
     @Column

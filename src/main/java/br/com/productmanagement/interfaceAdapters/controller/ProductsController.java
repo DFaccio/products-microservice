@@ -10,7 +10,8 @@ import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductOrderDto;
 import br.com.productmanagement.usercase.ProductsBusiness;
 import br.com.productmanagement.util.SkuGenerator;
-import br.com.productmanagement.util.enums.UpdateType;
+import br.com.productmanagement.util.enums.Operation;
+import br.com.productmanagement.util.enums.ProductCategory;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
 import br.com.productmanagement.util.pagination.Pagination;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class ProductsController {
@@ -47,7 +50,7 @@ public class ProductsController {
 
         String sku;
 
-        if(products.getSku().isEmpty()) {
+        if(products.getSku() == null) {
 
             sku = skuGenerator.generateSku(products.getProductCategory().toString(),
                     products.getBrand(),
@@ -64,11 +67,37 @@ public class ProductsController {
 
         }
 
+        Products productSave = productsGateway.findBySku(sku);
+
+        if(productSave != null){
+
+            products = productsBusiness.updateSku(products, productSave);
+
+        }
+
+        products = productsGateway.save(products);
+
+        if(products.getDiscount() != null){
+            Optional<Discount> discount = discountGateway.findById(products.getDiscount().getDiscountId());
+            products.setDiscount(discount.get());
+        }
+        return productPresenter.convert(products);
+
+    }
+
+    public ProductDto update(String sku, ProductDto dto) throws ValidationsException {
+
+        Products products = productPresenter.convert(dto);
+
         Products productUpd = productsGateway.findBySku(sku);
 
         if(productUpd != null){
 
             products = productsBusiness.updateSku(products, productUpd);
+
+        }else{
+
+            throw new ValidationsException("0100", "SKU", sku);
 
         }
 
@@ -78,11 +107,59 @@ public class ProductsController {
 
     }
 
-    public PagedResponse<ProductDto> findAll(Pagination pagination) throws ValidationsException {
+    public PagedResponse<ProductDto> findAll(Pagination pagination, String name, ProductCategory category, String supplier) throws ValidationsException {
 
         Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getPageSize());
+        Page<Products> products = null;
 
-        Page<Products> products = productsGateway.findAll(pageable);
+        boolean nameFilter = name != null && !name.trim().isEmpty();
+        boolean supplierFilter = supplier != null && !supplier.trim().isEmpty();
+        boolean categoryFilter = category != null;
+
+//        ARRUMAR OS FILTROS QUE NÃO ESTÃO RETORNANDO
+
+        if (!nameFilter && !supplierFilter && !categoryFilter) {
+            products = productsGateway.findAll(pageable);
+        }
+        if (nameFilter && supplierFilter && categoryFilter) {
+            products = productsGateway.findAllByNameAndSupplierAndProductCategory(name, supplier, category, pageable);
+        }
+        if (nameFilter && supplierFilter) {
+            products = productsGateway.findAllByNameAndSupplier(name, supplier, pageable);
+        }
+        if (nameFilter && categoryFilter) {
+            products = productsGateway.findAllByNameAndProductCategory(name, category, pageable);
+        }
+        if (categoryFilter && supplierFilter) {
+            products = productsGateway.findAllBySupplierAndProductCategory(supplier, category, pageable);
+        }
+        if (nameFilter && !supplierFilter && !categoryFilter) {
+            products = productsGateway.findAllByName(name, pageable);
+        }
+        if (!nameFilter && supplierFilter && !categoryFilter) {
+            products = productsGateway.findAllBySupplier(supplier, pageable);
+        }
+        if (!nameFilter && !supplierFilter && categoryFilter) {
+            products = productsGateway.findAllByProductCategory(category, pageable);
+        }
+
+//        ARRUMAR O SET DA OCORRENCIA
+
+//        if(products.getPageable().getPageSize() > 0){
+//
+//            int i = 0;
+//
+//            for(Products prodDis : products.getContent()){
+//
+//                Discount discount = new Discount();
+//                discount = productDiscountHelper.validadeProductDiscount(products.getContent().get(i));
+//                prodDis.setDiscount(discount);
+//                products.toSet().stream().toList().add(i, prodDis);
+//                i++;
+//
+//            }
+//
+//        }
 
         return productPresenter.convertDocuments(products);
 
@@ -110,6 +187,22 @@ public class ProductsController {
 
     }
 
+    public ProductOrderDto newOrderRequest(String sku, int orderQuantity) throws ValidationsException {
+
+        ProductDto productDto = findBySku(sku);
+
+        int productQuantity = productDto.getAvailableQuantity();
+
+        if(!productsBusiness.checkAvailableQuantity(productQuantity, orderQuantity)){
+            throw new ValidationsException("0101", "produto", sku);
+        }
+
+        ProductOrderDto productOrderDto = productsBusiness.returnProductOrderValues(productDto, orderQuantity);
+
+        return productOrderDto;
+
+    }
+
     public ProductOrderDto updateSkuOnNewOrder(String sku, int orderQuantity) throws ValidationsException {
 
         ProductDto productDto = findBySku(sku);
@@ -124,7 +217,7 @@ public class ProductsController {
 
         Products products = productPresenter.convert(productDto);
 
-        products = productsBusiness.updateProductKeeping(products, productQuantity, orderQuantity, UpdateType.SELL);
+        products = productsBusiness.updateProductKeeping(products, productQuantity, orderQuantity, Operation.SALE);
 
         productsGateway.save(products);
 
@@ -138,7 +231,7 @@ public class ProductsController {
 
         int productQuantity = products.getAvailableQuantity();
 
-        products = productsBusiness.updateProductKeeping(products, productQuantity, orderQuantity, UpdateType.ORDER_CANCELLATION);
+        products = productsBusiness.updateProductKeeping(products, productQuantity, orderQuantity, Operation.ORDER_CANCELLATION);
 
         productsGateway.save(products);
 
