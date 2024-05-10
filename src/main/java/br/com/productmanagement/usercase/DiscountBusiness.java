@@ -18,7 +18,7 @@ public class DiscountBusiness {
 
         }
 
-//        ARRUMAR, MESMO ESTANDO IGUAL ESTÁ CAINDO AQUI
+//        ARRUMAR, MESMO ESTANDO IGUAL ESTÁ CAINDO AQUI - usar hashcode?
 
         if(discountDto.getDescription() != null
         && discountDto.getDescription() != discountUpd.getDescription()){

@@ -1,8 +1,9 @@
 package br.com.productmanagement.frameworks.web;
 
-import br.com.productmanagement.interfaceAdapters.controller.ProductsController;
+import br.com.productmanagement.interfaceAdapters.controller.ProductController;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductOrderDto;
+import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductReservationDto;
+import br.com.productmanagement.interfaceAdapters.presenters.dto.ReservationsDto;
 import br.com.productmanagement.util.enums.ProductCategory;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
@@ -18,16 +19,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/products")
 @Tag(name = "Produtos", description = "Exibe os métodos para cadastro e controle de produtos")
-public class ProductsWeb {
+public class ProductWeb {
 
     @Resource
-    private ProductsController productsController;
+    private ProductController productController;
 
     @Operation(summary = "Insere um novo produto")
     @PostMapping(value = "/insert")
     public ResponseEntity<ProductDto> insert(@Valid @RequestBody ProductDto dto) throws ValidationsException {
 
-        return ResponseEntity.ok(productsController.insert(dto));
+        return ResponseEntity.ok(productController.insert(dto));
 
     }
 
@@ -36,7 +37,7 @@ public class ProductsWeb {
     public ResponseEntity<ProductDto> update(@PathVariable String sku,
                                              @Valid @RequestBody ProductDto dto) throws ValidationsException {
 
-        return ResponseEntity.ok(productsController.update(sku, dto));
+        return ResponseEntity.ok(productController.update(sku, dto));
 
     }
 
@@ -54,7 +55,7 @@ public class ProductsWeb {
                                                                 @RequestParam(required = false) String supplier) throws ValidationsException {
 
         Pagination page = new Pagination(initialPage, pageSize);
-        return ResponseEntity.ok(productsController.findAll(page, name, category, supplier));
+        return ResponseEntity.ok(productController.findAll(page, name, category, supplier));
 
     }
 
@@ -62,34 +63,7 @@ public class ProductsWeb {
     @GetMapping(value = "/sku/{sku}")
     public ResponseEntity<ProductDto> findBySku(@PathVariable String sku) throws ValidationsException {
 
-        return ResponseEntity.ok(productsController.findBySku(sku));
-
-    }
-
-    @Operation(summary = "Atualiza o estoque de produtos a partir de uma nova ordem de compra")
-    @GetMapping(value = "/order/{sku}/{quantity}")
-    public ResponseEntity<ProductOrderDto> newOrderRequest(@PathVariable String sku,
-                                                           @PathVariable int quantity) throws ValidationsException {
-
-        return ResponseEntity.ok(productsController.newOrderRequest(sku, quantity));
-
-    }
-
-    @Operation(summary = "Atualiza o estoque de produtos a partir de uma nova ordem de compra")
-    @PutMapping(value = "/order/confirmation/{sku}/{quantity}")
-    public ResponseEntity<ProductOrderDto> orderConfirmation(@PathVariable String sku,
-                                                             @PathVariable int quantity) throws ValidationsException {
-
-        return ResponseEntity.ok(productsController.updateSkuOnNewOrder(sku, quantity));
-
-    }
-
-    @Operation(summary = "Atualiza o estoque de produtos a partir de uma ordem de compra cancelada")
-    @PutMapping(value = "/order/cancellation/{sku}/{quantity}")
-    public void orderCancellation(@PathVariable String sku,
-                                  @PathVariable int quantity) throws ValidationsException {
-
-        productsController.updateSkuOnOrderCancellation(sku, quantity);
+        return ResponseEntity.ok(productController.findBySku(sku));
 
     }
 

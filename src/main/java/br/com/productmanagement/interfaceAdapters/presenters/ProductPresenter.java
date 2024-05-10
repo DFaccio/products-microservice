@@ -1,18 +1,18 @@
 package br.com.productmanagement.interfaceAdapters.presenters;
 
-import br.com.productmanagement.entities.Products;
+import br.com.productmanagement.entities.Product;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductPresenter implements Presenter<Products, ProductDto>{
+public class ProductPresenter implements Presenter<Product, ProductDto>{
 
     @Resource
     private DiscountPresenter discountPresenter;
 
     @Override
-    public ProductDto convert(Products document){
+    public ProductDto convert(Product document){
 
         ProductDto productDto = new ProductDto();
 
@@ -46,37 +46,37 @@ public class ProductPresenter implements Presenter<Products, ProductDto>{
 
     }
 
-    public Products convert(ProductDto dto){
+    public Product convert(ProductDto dto){
 
-        Products products = new Products();
+        Product product = new Product();
 
-        products.setProductId(dto.getId());
-        products.setName(dto.getName());
-        products.setSku(dto.getSku());
-        products.setDescription(dto.getDescription());
-        products.setProductCategory(dto.getProductCategory());
-        products.setModel(dto.getModel());
-        products.setAvailable(dto.isAvailable());
-        products.setAvailableQuantity(dto.getAvailableQuantity());
-        products.setColor(dto.getColor());
-        products.setSize(dto.getSize());
-        products.setImageURL(dto.getImageURL());
-        products.setSupplier(dto.getSupplier());
-        products.setBrand(dto.getBrand());
-        products.setPrice(dto.getPrice());
-        products.setProductHeight(dto.getProductHeight());
-        products.setProductWidth(dto.getProductWidth());
-        products.setProductDepth(dto.getProductDepth());
-        products.setProductWeight(dto.getProductWeight());
-        products.setPackagingHeight(dto.getPackagingHeight());
-        products.setPackagingWidth(dto.getPackagingWidth());
-        products.setPackagingDepth(dto.getPackagingDepth());
-        products.setProductWeight(dto.getPackagingWeight());
+        product.setProductId(dto.getId());
+        product.setName(dto.getName());
+        product.setSku(dto.getSku());
+        product.setDescription(dto.getDescription());
+        product.setProductCategory(dto.getProductCategory());
+        product.setModel(dto.getModel());
+        product.setAvailable(dto.isAvailable());
+        product.setAvailableQuantity(dto.getAvailableQuantity());
+        product.setColor(dto.getColor());
+        product.setSize(dto.getSize());
+        product.setImageURL(dto.getImageURL());
+        product.setSupplier(dto.getSupplier());
+        product.setBrand(dto.getBrand());
+        product.setPrice(dto.getPrice());
+        product.setProductHeight(dto.getProductHeight());
+        product.setProductWidth(dto.getProductWidth());
+        product.setProductDepth(dto.getProductDepth());
+        product.setProductWeight(dto.getProductWeight());
+        product.setPackagingHeight(dto.getPackagingHeight());
+        product.setPackagingWidth(dto.getPackagingWidth());
+        product.setPackagingDepth(dto.getPackagingDepth());
+        product.setProductWeight(dto.getPackagingWeight());
         if(dto.getDiscount() != null) {
-            products.setDiscount(discountPresenter.convert(dto.getDiscount()));
+            product.setDiscount(discountPresenter.convert(dto.getDiscount()));
         }
 
-        return products;
+        return product;
 
     }
 

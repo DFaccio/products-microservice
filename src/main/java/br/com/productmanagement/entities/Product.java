@@ -13,10 +13,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name="Products")
+@Table(name="Product")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Products implements Serializable {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
