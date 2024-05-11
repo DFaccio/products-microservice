@@ -1,6 +1,5 @@
 package br.com.productmanagement.util;
 
-
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;

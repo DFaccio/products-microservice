@@ -46,7 +46,6 @@ public class DiscountDto extends Dto implements Serializable {
     @Schema(example = "3")
     private Integer minimumQuantityToDiscount;
 
-    @NotNull
     @Schema(example = "SAUDE")
     private ProductCategory productCategory;
 

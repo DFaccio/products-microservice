@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductDto extends Dto implements Serializable {
 
-    @Schema(example = "SAU-MAXT-CRE-MAX-BRA-000")
+    @Schema(example = "SAU-MAXT-CRE-MAX-BRA-300")
     private String sku;
 
     @NotBlank

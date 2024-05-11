@@ -2,6 +2,6 @@ package br.com.productmanagement.util.enums;
 
 public enum ReservationStatus {
 
-    PENDING, CONFIRMED, CANCELLED, FAILED
+    CREATED, CONFIRMED, CANCELLED, FAILED, UNAVAILABLE, EXPIRED
 
 }

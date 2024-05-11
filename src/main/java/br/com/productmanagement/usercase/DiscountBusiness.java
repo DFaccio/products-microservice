@@ -2,6 +2,7 @@ package br.com.productmanagement.usercase;
 
 import br.com.productmanagement.entities.Discount;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.DiscountDto;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +22,7 @@ public class DiscountBusiness {
 //        ARRUMAR, MESMO ESTANDO IGUAL ESTÁ CAINDO AQUI - usar hashcode?
 
         if(discountDto.getDescription() != null
-        && discountDto.getDescription() != discountUpd.getDescription()){
+        && !StringUtils.equals(discountDto.getDescription(), discountUpd.getDescription())){
 
             discountUpd.setDescription(discountDto.getDescription());
 

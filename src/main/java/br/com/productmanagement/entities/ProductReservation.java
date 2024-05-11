@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Setter
@@ -24,6 +25,12 @@ public class ProductReservation implements Serializable {
     private UUID reservationId;
 
     @Column
+    private LocalDateTime creationDate;
+
+    @Column
+    private LocalDateTime updateDate;
+
+    @Column
     private String sku;
 
     @Column
@@ -33,10 +40,10 @@ public class ProductReservation implements Serializable {
     private Integer requestedQuantity;
 
     @Column
-    private double orderValue;
+    private double reservationValue;
 
     @Column
-    private double apliedDiscount;
+    private double appliedDiscount;
 
     @Column
     private UUID discountId;

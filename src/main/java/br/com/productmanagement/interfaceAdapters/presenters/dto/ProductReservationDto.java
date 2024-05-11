@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -18,7 +19,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductReservationDto extends Dto implements Serializable {
 
-    @NotBlank
+    private LocalDateTime creationDate;
+
+    private LocalDateTime updateDate;
+
     @Schema(example = "SAU-MAXT-CRE-MAX-BRA-000")
     private String sku;
 
@@ -28,13 +32,12 @@ public class ProductReservationDto extends Dto implements Serializable {
 
     private double productValue;
 
-    @NotNull
     @Schema(example = "10")
     private Integer requestedQuantity;
 
-    private double orderValue;
+    private double reservationValue;
 
-    private double apliedDiscount;
+    private double appliedDiscount;
 
     private UUID discountId;
 

@@ -5,6 +5,7 @@ import br.com.productmanagement.interfaceAdapters.gateways.DiscountGateway;
 import br.com.productmanagement.interfaceAdapters.presenters.DiscountPresenter;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.DiscountDto;
 import br.com.productmanagement.usercase.DiscountBusiness;
+import br.com.productmanagement.util.MessageUtil;
 import br.com.productmanagement.util.enums.ProductCategory;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
@@ -30,11 +31,43 @@ public class DiscountController {
     @Resource
     private DiscountPresenter discountPresenter;
 
-    public DiscountDto insert(DiscountDto dto){
+    public DiscountDto insert(DiscountDto dto) throws ValidationsException {
+
+//      arrumar retorno de erro
 
         Discount discount = discountPresenter.convert(dto);
 
-        return discountPresenter.convert(discountGateway.save(discount));
+        if(discount.getProductCategory() != null){
+
+            Optional<Discount> optional = discountGateway.findByProductCategory(discount.getProductCategory());
+
+            if(optional.isPresent()){
+
+                new IllegalArgumentException(MessageUtil.getMessage("0201"));
+//                throw new ValidationsException("0201", "categoria", discount.getProductCategory().toString());
+
+            }
+
+        }
+
+//      arrumar retorno de erro
+
+        if(discount.getCoupon() != null){
+
+            Optional<Discount> optional = discountGateway.findByCoupon(discount.getCoupon());
+
+            if(optional.isPresent()){
+
+                new IllegalArgumentException(MessageUtil.getMessage("0202"));
+//                throw new ValidationsException("0202", "cupom", discount.getCoupon());
+
+            }
+
+        }
+
+        discount = discountGateway.save(discount);
+
+        return discountPresenter.convert(discount);
 
     }
 
@@ -43,7 +76,7 @@ public class DiscountController {
         Optional<Discount> optional = discountGateway.findById(id);
 
         if(optional.isEmpty()){
-            throw new ValidationsException("0200", "cupom", id.toString());
+            throw new ValidationsException("0200", "desconto", id.toString());
         }
 
         Discount discountUpd = discountBusiness.update(optional.get(), dto);

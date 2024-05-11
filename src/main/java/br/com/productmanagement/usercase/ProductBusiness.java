@@ -4,6 +4,7 @@ import br.com.productmanagement.entities.Product;
 import br.com.productmanagement.interfaceAdapters.helper.ProductHelper;
 import br.com.productmanagement.util.enums.Operation;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -42,7 +43,7 @@ public class ProductBusiness {
 //        ARRUMAR, MESMO ESTANDO IGUAL ESTÁ CAINDO AQUI - usar hashcode?
 
         if(product.getDescription() != null
-        && product.getDescription() != productUpd.getDescription()){
+        && !StringUtils.equals(product.getDescription(), productUpd.getDescription())){
 
             actualProduct.setDescription(product.getDescription());
 

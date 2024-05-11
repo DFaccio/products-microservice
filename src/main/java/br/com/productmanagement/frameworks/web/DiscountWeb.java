@@ -26,7 +26,7 @@ public class DiscountWeb {
 
     @Operation(summary = "Insere um novo desconto")
     @PostMapping(value = "/create")
-    public ResponseEntity<DiscountDto> insert(@Valid @RequestBody DiscountDto dto){
+    public ResponseEntity<DiscountDto> insert(@Valid @RequestBody DiscountDto dto) throws ValidationsException {
 
         return ResponseEntity.ok(discountController.insert(dto));
 

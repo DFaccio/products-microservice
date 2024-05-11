@@ -3,13 +3,14 @@ package br.com.productmanagement.interfaceAdapters.helper;
 import br.com.productmanagement.entities.Discount;
 import br.com.productmanagement.entities.Product;
 import br.com.productmanagement.interfaceAdapters.gateways.DiscountGateway;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
 import br.com.productmanagement.util.enums.DiscountType;
 import br.com.productmanagement.util.enums.Operation;
+import br.com.productmanagement.util.enums.ProductCategory;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component
 public class ProductHelper {
@@ -17,25 +18,27 @@ public class ProductHelper {
     @Resource
     private DiscountGateway discountGateway;
 
-    Discount discount = new Discount();
-
     public Discount validadeProductDiscount(Product product) {
 
-        if (product.getDiscount().getDiscountId() != null) {
+        Discount discount = new Discount();
+
+        if (product.getDiscount() != null) {
 
             discount = isDiscountActive(product.getDiscount());
 
         }
 
-        if(discount == null){
+        if(discount.getDiscountId() == null){
 
-            String category = product.getProductCategory().toString();
+//            buscar apenas por descontos ativos!!!!!
 
-            discount = discountGateway.findByProductCategory(category);
+            Optional<Discount> optional= discountGateway.findByProductCategory(product.getProductCategory());
 
-            if(discount != null){
+            discount = optional.get();
 
-                discount = isDiscountActive(product.getDiscount());
+            if(discount.getDiscountId() != null){
+
+                discount = isDiscountActive(discount);
 
             }
 
@@ -44,7 +47,6 @@ public class ProductHelper {
         return discount;
 
     }
-
 
     private Discount isDiscountActive(Discount discount) {
 
@@ -65,7 +67,6 @@ public class ProductHelper {
     private Discount validateDiscountAvailability(Discount discount) {
 
         LocalDateTime today = LocalDateTime.now();
-
 
         if(!today.isAfter(discount.getDiscountStartDate()) && !today.isBefore(discount.getDiscountFinishDate())){
 
@@ -107,15 +108,29 @@ public class ProductHelper {
 
     public Product updateProductKeeping(Product product, int productQuantity, int updateQuantity, Operation operation){
 
-        if(operation == Operation.SALE){
+        if(operation == Operation.RESERVATION){
 
-            product.setAvailableQuantity(productQuantity - updateQuantity);
+            Integer updQuantity = productQuantity - updateQuantity;
+
+            product.setAvailableQuantity(updQuantity);
+
+            if(updQuantity == 0){
+
+                product.setAvailable(false);
+
+            }
 
         }
 
-        if(operation == Operation.ARRIVAL || operation == Operation.ORDER_CANCELLATION){
+        if(operation == Operation.ARRIVAL || operation == Operation.RESERVATION_CANCELLATION || operation == Operation.RESERVATION_GIVEUP){
 
             product.setAvailableQuantity(productQuantity + updateQuantity);
+
+            if(!product.isAvailable()){
+
+                product.setAvailable(true);
+
+            }
 
         }
 

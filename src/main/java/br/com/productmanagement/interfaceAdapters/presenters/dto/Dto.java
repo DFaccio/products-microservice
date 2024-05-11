@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Dto {
 
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+//    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private UUID id;
 
 }

@@ -13,8 +13,8 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Restaurante - Reserva e Avaliação")
-                                .description("API para reservas e avaliação de restaurantes")
+                                .title("Microsserviço para controle estoque de produtos")
+                                .description("APIs para cadastro e atualização de produtos, descontos e reservas")
                                 .version("1.0.0")
                 );
     }

@@ -18,22 +18,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/products")
-@Tag(name = "Produtos", description = "Exibe os métodos para cadastro e controle de produtos")
+@Tag(name = "Produtos", description = "Exibe os métodos para cadastro, consulta e atualização de produtos")
 public class ProductWeb {
 
     @Resource
     private ProductController productController;
 
     @Operation(summary = "Insere um novo produto")
-    @PostMapping(value = "/insert")
+    @PostMapping(value = "/create")
     public ResponseEntity<ProductDto> insert(@Valid @RequestBody ProductDto dto) throws ValidationsException {
 
         return ResponseEntity.ok(productController.insert(dto));
 
     }
 
-    @Operation(summary = "Insere um novo produto")
-    @PostMapping(value = "/update/{sku}")
+    @Operation(summary = "Altera algumas informações de um produto")
+    @PutMapping(value = "/update/{sku}")
     public ResponseEntity<ProductDto> update(@PathVariable String sku,
                                              @Valid @RequestBody ProductDto dto) throws ValidationsException {
 

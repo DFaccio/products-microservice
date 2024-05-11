@@ -1,11 +1,14 @@
 package br.com.productmanagement.usercase;
 
 import br.com.productmanagement.entities.Product;
+import br.com.productmanagement.entities.ProductReservation;
 import br.com.productmanagement.interfaceAdapters.helper.ProductHelper;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductReservationDto;
+import br.com.productmanagement.util.enums.ReservationStatus;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class ProductReservationBusiness {
@@ -13,11 +16,11 @@ public class ProductReservationBusiness {
     @Resource
     private ProductHelper productHelper;
 
-    public boolean checkAvailableQuantity(int productQuantity, int orderQuantity){
+    public boolean checkAvailableQuantity(int productQuantity, int requestedQuantity){
 
         boolean available = false;
 
-        if(productQuantity >= orderQuantity){
+        if(productQuantity >= requestedQuantity){
 
             available = true;
 
@@ -28,36 +31,88 @@ public class ProductReservationBusiness {
     }
 
 
-    public ProductReservationDto returnProductOrderValues(Product product, int orderQuantity){
+    public ProductReservation newReservation(Product product, int requestedQuantity){
 
-        ProductReservationDto productReservationDto = new ProductReservationDto();
+        ProductReservation productReservation = new ProductReservation();
 
-        productReservationDto.setSku(product.getSku());
+        LocalDateTime dateTime = LocalDateTime.now();
 
-        productReservationDto.setName(product.getName());
+        productReservation.setCreationDate(dateTime);
 
-        productReservationDto.setRequestedQuantity(orderQuantity);
+        productReservation.setUpdateDate(dateTime);
 
-        double orderValue = orderQuantity * product.getPrice();
+        productReservation.setSku(product.getSku());
 
-        productReservationDto.setOrderValue(orderValue);
+        productReservation.setName(product.getName());
 
-        double discount = 0.0;
+        productReservation.setRequestedQuantity(requestedQuantity);
+
+        double reservationValue = calculateReservationValue(product, requestedQuantity);
+
+        productReservation.setReservationValue(reservationValue);
+
+        productReservation.setReservationStatus(ReservationStatus.CREATED);
+
+        product.setDiscount(productHelper.validadeProductDiscount(product));
 
         if(product.getDiscount() != null){
 
-            discount = productHelper.calculateOrderDiscount(product, orderQuantity, orderValue);
+            productReservation.setDiscountId(product.getDiscount().getDiscountId());
+
+            productReservation.setAppliedDiscount(productHelper.calculateOrderDiscount(product, requestedQuantity, reservationValue));
 
         }
 
-        productReservationDto.setApliedDiscount(discount);
-
-        productReservationDto.setDiscountId(product.getDiscount().getDiscountId());
-
-        return productReservationDto;
+        return productReservation;
 
     }
 
+    public ProductReservation updateReservation(ProductReservation productReservation, Product product, int requestedQuantity){
 
+        productReservation.setUpdateDate(LocalDateTime.now());
+
+        productReservation.setRequestedQuantity(requestedQuantity);
+
+        double reservationValue = calculateReservationValue(product, requestedQuantity);
+
+        productReservation.setReservationValue(reservationValue);
+
+        product.setDiscount(productHelper.validadeProductDiscount(product));
+
+        if(product.getDiscount() != null){
+
+            productReservation.setAppliedDiscount(productHelper.calculateOrderDiscount(product, requestedQuantity, reservationValue));
+
+            if(productReservation.getAppliedDiscount() > 0){
+
+                productReservation.setDiscountId(product.getDiscount().getDiscountId());
+
+            }else{
+
+                productReservation.setDiscountId(null);
+
+            }
+
+        }
+
+        return productReservation;
+
+    }
+
+    public double calculateReservationValue(Product product, int requestedQuantity){
+
+        return requestedQuantity * product.getPrice();
+
+    }
+
+    public ProductReservation reservationUnavailable(ProductReservation productReservation, ProductReservationDto productReservationDto){
+
+        productReservation.setSku(productReservation.getSku());
+        productReservation.setRequestedQuantity(productReservationDto.getRequestedQuantity());
+        productReservation.setReservationStatus(ReservationStatus.UNAVAILABLE);
+
+        return productReservation;
+
+    }
 
 }
