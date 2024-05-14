@@ -35,14 +35,17 @@ public class DiscountDto extends Dto implements Serializable {
     @Schema(example = "2.0")
     private double discountValue;
 
+    private LocalDateTime creationDate;
+
     @NotNull
-    @Schema(example = "2024-05-05")
+    @Schema(example = "2024-05-05T00:00:00.000Z")
     private LocalDateTime discountStartDate;
 
     @NotNull
-    @Schema(example = "2024-05-25")
+    @Schema(example = "2024-05-30T23:59:59.000Z")
     private LocalDateTime discountFinishDate;
 
+    @NotNull
     @Schema(example = "3")
     private Integer minimumQuantityToDiscount;
 

@@ -46,26 +46,17 @@ public class ProductController {
 
         Product product = productPresenter.convert(dto);
 
-        String sku;
-
-        if(product.getSku() == null) {
-
-            sku = skuGenerator.generateSku(product.getProductCategory().toString(),
-                    product.getBrand(),
-                    product.getName(),
-                    product.getModel(),
-                    product.getColor(),
-                    product.getSize());
-
-            product.setSku(sku);
-
-        }else{
-
-            sku = product.getSku();
-
+        if(product.getDiscount() != null){
+            Optional<Discount> discount = discountGateway.findById(product.getDiscount().getId());
+            if(discount.isEmpty()){
+                throw new ValidationsException("0121");
+            }
+            product.setDiscount(discount.get());
         }
 
-        Product productSave = productGateway.findBySku(sku);
+        product = productBusiness.create(product);
+
+        Product productSave = productGateway.findBySku(product.getSku());
 
         if(productSave != null){
 
@@ -75,10 +66,6 @@ public class ProductController {
 
         product = productGateway.save(product);
 
-        if(product.getDiscount() != null){
-            Optional<Discount> discount = discountGateway.findById(product.getDiscount().getDiscountId());
-            product.setDiscount(discount.get());
-        }
         return productPresenter.convert(product);
 
     }
@@ -114,50 +101,31 @@ public class ProductController {
         boolean supplierFilter = supplier != null && !supplier.trim().isEmpty();
         boolean categoryFilter = category != null;
 
-//        ARRUMAR OS FILTROS QUE NÃO ESTÃO RETORNANDO
-
         if (!nameFilter && !supplierFilter && !categoryFilter) {
             products = productGateway.findAll(pageable);
-        }
-        if (nameFilter && supplierFilter && categoryFilter) {
+            products = productBusiness.checkForAvailableDiscount(products);
+        } else if (nameFilter && supplierFilter && categoryFilter) {
             products = productGateway.findAllByNameAndSupplierAndProductCategory(name, supplier, category, pageable);
-        }
-        if (nameFilter && supplierFilter) {
+            products = productBusiness.checkForAvailableDiscount(products);
+        }else if (nameFilter && supplierFilter && !categoryFilter) {
             products = productGateway.findAllByNameAndSupplier(name, supplier, pageable);
-        }
-        if (nameFilter && categoryFilter) {
+            products = productBusiness.checkForAvailableDiscount(products);
+        }else if (nameFilter && !supplierFilter && categoryFilter) {
             products = productGateway.findAllByNameAndProductCategory(name, category, pageable);
-        }
-        if (categoryFilter && supplierFilter) {
+            products = productBusiness.checkForAvailableDiscount(products);
+        }else if (!nameFilter && categoryFilter && supplierFilter) {
             products = productGateway.findAllBySupplierAndProductCategory(supplier, category, pageable);
-        }
-        if (nameFilter && !supplierFilter && !categoryFilter) {
+            products = productBusiness.checkForAvailableDiscount(products);
+        }else if (nameFilter && !supplierFilter && !categoryFilter) {
             products = productGateway.findAllByName(name, pageable);
-        }
-        if (!nameFilter && supplierFilter && !categoryFilter) {
+            products = productBusiness.checkForAvailableDiscount(products);
+        }else if (!nameFilter && supplierFilter && !categoryFilter) {
             products = productGateway.findAllBySupplier(supplier, pageable);
-        }
-        if (!nameFilter && !supplierFilter && categoryFilter) {
+            products = productBusiness.checkForAvailableDiscount(products);
+        }else if (!nameFilter && !supplierFilter && categoryFilter) {
             products = productGateway.findAllByProductCategory(category, pageable);
+            products = productBusiness.checkForAvailableDiscount(products);
         }
-
-//        ARRUMAR O SET DA OCORRENCIA
-
-//        if(products.getPageable().getPageSize() > 0){
-//
-//            int i = 0;
-//
-//            for(Products prodDis : products.getContent()){
-//
-//                Discount discount = new Discount();
-//                discount = productHelper.validadeProductDiscount(products.getContent().get(i));
-//                prodDis.setDiscount(discount);
-//                products.toSet().stream().toList().add(i, prodDis);
-//                i++;
-//
-//            }
-//
-//        }
 
         return productPresenter.convertDocuments(products);
 
@@ -171,9 +139,7 @@ public class ProductController {
             throw new ValidationsException("0100", "SKU", sku);
         }
 
-        Discount discount = new Discount();
-
-        discount = productHelper.validadeProductDiscount(product);
+        Discount discount = productHelper.validadeProductDiscount(product);
 
         product.setDiscount(discount);
 

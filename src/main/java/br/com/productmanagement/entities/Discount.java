@@ -23,7 +23,7 @@ public class Discount implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column
-    private UUID discountId;
+    private UUID id;
 
     @Column
     private String coupon;
@@ -37,6 +37,9 @@ public class Discount implements Serializable {
 
     @Column
     private double discountValue;
+
+    @Column
+    private LocalDateTime creationDate;
 
     @Column
     private LocalDateTime discountStartDate;

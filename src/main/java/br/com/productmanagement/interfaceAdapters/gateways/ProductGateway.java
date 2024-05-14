@@ -35,43 +35,43 @@ public class ProductGateway {
 
     public Page<Product> findAllByNameAndSupplierAndProductCategory(String name, String supplier, ProductCategory category, Pageable pageable){
 
-        return productRepository.findAllByNameContainsAndSupplierContainsAndProductCategory(name, supplier, category, pageable);
+        return productRepository.findByNameContainingIgnoreCaseAndSupplierContainingIgnoreCaseAndProductCategory(name, supplier, category, pageable);
 
     }
 
     public Page<Product> findAllByNameAndSupplier(String name, String supplier, Pageable pageable){
 
-        return productRepository.findAllByNameContainsAndSupplierContains(name, supplier, pageable);
+        return productRepository.findByNameContainingIgnoreCaseAndSupplierContainingIgnoreCase(name, supplier, pageable);
 
     }
 
     public Page<Product> findAllByNameAndProductCategory(String name, ProductCategory category, Pageable pageable){
 
-        return productRepository.findAllByNameContainsAndProductCategory(name, category, pageable);
+        return productRepository.findByNameContainingIgnoreCaseAndProductCategory(name, category, pageable);
 
     }
 
     public Page<Product> findAllBySupplierAndProductCategory(String supplier, ProductCategory category, Pageable pageable){
 
-        return productRepository.findAllBySupplierContainsAndProductCategory(supplier, category, pageable);
+        return productRepository.findBySupplierContainingIgnoreCaseAndProductCategory(supplier, category, pageable);
 
     }
 
     public Page<Product> findAllByName(String name, Pageable pageable){
 
-        return productRepository.findAllByNameContains(name, pageable);
+        return productRepository.findByNameContainingIgnoreCase(name, pageable);
 
     }
 
     public Page<Product> findAllBySupplier(String supplier, Pageable pageable){
 
-        return productRepository.findAllBySupplierContains(supplier, pageable);
+        return productRepository.findBySupplierContainingIgnoreCase(supplier, pageable);
 
     }
 
     public Page<Product> findAllByProductCategory(ProductCategory category, Pageable pageable){
 
-        return productRepository.findAllByProductCategory(category, pageable);
+        return productRepository.findByProductCategory(category, pageable);
 
     }
 

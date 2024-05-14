@@ -5,7 +5,6 @@ import br.com.productmanagement.entities.Product;
 import br.com.productmanagement.interfaceAdapters.gateways.DiscountGateway;
 import br.com.productmanagement.util.enums.DiscountType;
 import br.com.productmanagement.util.enums.Operation;
-import br.com.productmanagement.util.enums.ProductCategory;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -28,17 +27,19 @@ public class ProductHelper {
 
         }
 
-        if(discount.getDiscountId() == null){
-
-//            buscar apenas por descontos ativos!!!!!
+        if(discount.getId() == null){
 
             Optional<Discount> optional= discountGateway.findByProductCategory(product.getProductCategory());
 
-            discount = optional.get();
+            if(optional.isPresent()){
 
-            if(discount.getDiscountId() != null){
+                discount = optional.get();
 
-                discount = isDiscountActive(discount);
+                if(discount.getId() != null){
+
+                    discount = isDiscountActive(discount);
+
+                }
 
             }
 
@@ -78,31 +79,31 @@ public class ProductHelper {
 
     }
 
-    public double calculateOrderDiscount(Product product, int orderQuantity, double orderValue){
+    public double calculateOrderDiscount(Discount discount, int orderQuantity, double orderValue){
 
-        double discount = 0.0;
+        double appliableDiscount = 0.0;
 
-        DiscountType discountType = product.getDiscount().getDiscountType();
+        DiscountType discountType = discount.getDiscountType();
 
-        int minimumQuantityToDiscount = product.getDiscount().getMinimumQuantityToDiscount();
+        int minimumQuantityToDiscount = discount.getMinimumQuantityToDiscount();
 
-        double discountValue = product.getDiscount().getDiscountValue();
+        double discountValue = discount.getDiscountValue();
 
         if(minimumQuantityToDiscount <= orderQuantity){
 
             if(discountType == DiscountType.PERCENTAGE){
 
-                discount = orderValue * (discountValue/100);
+                appliableDiscount = orderValue * (discountValue/100);
 
             }else{
 
-                discount = discountValue;
+                appliableDiscount = discountValue;
 
             }
 
         }
 
-        return discount;
+        return appliableDiscount;
 
     }
 

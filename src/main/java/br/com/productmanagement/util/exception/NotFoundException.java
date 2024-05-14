@@ -1,6 +1,5 @@
 package br.com.productmanagement.util.exception;
 
-
 public class NotFoundException extends Exception {
 
     public NotFoundException(Integer id, String entity) {

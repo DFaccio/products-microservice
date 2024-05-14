@@ -38,6 +38,7 @@ public class ProductPresenter implements Presenter<Product, ProductDto>{
         productDto.setPackagingWidth(document.getPackagingWidth());
         productDto.setPackagingDepth(document.getPackagingDepth());
         productDto.setPackagingWeight(document.getPackagingWeight());
+        productDto.setCreationDate(document.getCreationDate());
         if(document.getDiscount() != null) {
             productDto.setDiscount(discountPresenter.convert(document.getDiscount()));
         }

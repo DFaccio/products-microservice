@@ -12,7 +12,7 @@ public class SkuGenerator {
         String nameCode = formatAttribute(name, 3);
         String modelCode = formatAttribute(model, 3);
         String colorCode = formatAttribute(color, 3);
-        String sizeCode = formatAttribute(size, 3);
+        String sizeCode = formatAttribute(size, 4);
 
         return String.format("%s-%s-%s-%s-%s-%s", categoryCode, brandCode, nameCode, modelCode, colorCode, sizeCode);
     }
