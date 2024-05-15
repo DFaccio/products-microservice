@@ -6,6 +6,7 @@ import br.com.productmanagement.entities.ProductReservation;
 import br.com.productmanagement.interfaceAdapters.helper.ProductHelper;
 import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductReservationDto;
 import br.com.productmanagement.util.enums.ReservationStatus;
+import br.com.productmanagement.util.time.TimeUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +39,7 @@ public class ProductReservationBusiness {
 
         ProductReservation productReservation = new ProductReservation();
 
-        LocalDateTime dateTime = LocalDateTime.now();
+        LocalDateTime dateTime = TimeUtils.now();
 
         productReservation.setCreationDate(dateTime);
 
@@ -82,7 +83,7 @@ public class ProductReservationBusiness {
 
         Discount discount;
 
-        productReservation.setUpdateDate(LocalDateTime.now());
+        productReservation.setUpdateDate(TimeUtils.now());
 
         productReservation.setRequestedQuantity(requestedQuantity);
 

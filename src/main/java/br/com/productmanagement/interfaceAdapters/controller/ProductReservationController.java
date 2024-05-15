@@ -14,6 +14,7 @@ import br.com.productmanagement.util.enums.ReservationStatus;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
 import br.com.productmanagement.util.pagination.Pagination;
+import br.com.productmanagement.util.time.TimeUtils;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -265,7 +266,7 @@ public class ProductReservationController {
 
             ProductReservation updReservation = productReservationGateway.findById(id);
 
-            updReservation.setUpdateDate(LocalDateTime.now());
+            updReservation.setUpdateDate(TimeUtils.now());
 
             updReservation.setReservationStatus(ReservationStatus.CONFIRMED);
 
@@ -311,7 +312,7 @@ public class ProductReservationController {
 
             int reservedQuantity = updReservation.getRequestedQuantity();
 
-            updReservation.setUpdateDate(LocalDateTime.now());
+            updReservation.setUpdateDate(TimeUtils.now());
 
             updReservation.setReservationStatus(ReservationStatus.CANCELLED);
 

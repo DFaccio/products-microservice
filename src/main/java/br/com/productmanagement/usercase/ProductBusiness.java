@@ -7,6 +7,7 @@ import br.com.productmanagement.util.SkuGenerator;
 import br.com.productmanagement.util.enums.Operation;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
+import br.com.productmanagement.util.time.TimeUtils;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,7 @@ public class ProductBusiness {
         }
 
         if(product.getCreationDate() == null) {
-            product.setCreationDate(LocalDateTime.now());
+            product.setCreationDate(TimeUtils.now());
         }
 
         return product;
