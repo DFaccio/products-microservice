@@ -38,12 +38,15 @@ public class ProductProcessor implements ItemProcessor<Product, Product> {
     @Override
     public Product process(Product product) throws Exception {
 
-        if(product.getDiscount() != null){
+        if(product.getDiscount().getId() != null){
             Optional<Discount> discount = discountGateway.findById(product.getDiscount().getId());
             if(discount.isEmpty()){
-                product.setDiscount(new Discount());
+                product.setDiscount(null);
             }
 
+        }else{
+//            product = setProductWithoutDiscount(product);
+            product.setDiscount(null);
         }
 
         product = productBusiness.create(product);
@@ -62,4 +65,34 @@ public class ProductProcessor implements ItemProcessor<Product, Product> {
 
     }
 
+    private Product setProductWithoutDiscount(Product product){
+
+        Product productWhithoutDiscount = new Product();
+
+        productWhithoutDiscount.setSku(product.getSku());
+        productWhithoutDiscount.setName(product.getName());
+        productWhithoutDiscount.setDescription(product.getDescription());
+        productWhithoutDiscount.setProductCategory(product.getProductCategory());
+        productWhithoutDiscount.setModel(product.getModel());
+        productWhithoutDiscount.setAvailable(product.isAvailable());
+        productWhithoutDiscount.setAvailableQuantity(product.getAvailableQuantity());
+        productWhithoutDiscount.setColor(product.getColor());
+        productWhithoutDiscount.setSize(product.getSize());
+        productWhithoutDiscount.setImageURL(product.getImageURL());
+        productWhithoutDiscount.setSupplier(product.getSupplier());
+        productWhithoutDiscount.setBrand(product.getBrand());
+        productWhithoutDiscount.setPrice(product.getPrice());
+        productWhithoutDiscount.setProductHeight(product.getProductHeight());
+        productWhithoutDiscount.setProductWidth(product.getProductWidth());
+        productWhithoutDiscount.setProductDepth(product.getProductDepth());
+        productWhithoutDiscount.setProductWeight(product.getProductWeight());
+        productWhithoutDiscount.setPackagingHeight(product.getPackagingHeight());
+        productWhithoutDiscount.setPackagingHeight(product.getPackagingHeight());
+        productWhithoutDiscount.setPackagingDepth(product.getPackagingDepth());
+        productWhithoutDiscount.setPackagingWeight(product.getPackagingWeight());
+        productWhithoutDiscount.setCreationDate(product.getCreationDate());
+
+        return productWhithoutDiscount;
+
+    }
 }
