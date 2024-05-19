@@ -48,7 +48,7 @@ public class ProductController {
 
             if(discount.isEmpty()){
 
-                throw new ValidationsException("0121");
+                throw new ValidationsException("0101", "Desconto", product.getDiscount().getId().toString());
 
             }
 
@@ -85,6 +85,20 @@ public class ProductController {
         }else{
 
             product = productBusiness.updateSku(product, productUpd);
+
+        }
+
+        if(product.getDiscount() != null){
+
+            Optional<Discount> discount = discountGateway.findById(product.getDiscount().getId());
+
+            if(discount.isEmpty()){
+
+                throw new ValidationsException("0101", "Desconto", product.getDiscount().getId().toString());
+
+            }
+
+            product.setDiscount(discount.get());
 
         }
 
