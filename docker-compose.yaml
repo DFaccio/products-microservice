@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16.0
+    container_name: postgres
+    restart: unless-stopped
+    volumes:
+      - product-database:/var/lib/postgresql/data
+    networks:
+      - product-service-network
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "productsKeeping"
+    ports:
+      - "15432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4:8.0
+    container_name: pgadmin
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "products-ms@mail.com"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - product-service-network
+
+networks:
+  product-service-network:
+
+volumes:
+  product-database:

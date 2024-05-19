@@ -1,10 +1,13 @@
 package br.com.productmanagement.usercase;
 
+import br.com.productmanagement.entities.Discount;
 import br.com.productmanagement.entities.Product;
 import br.com.productmanagement.entities.ProductReservation;
-import br.com.productmanagement.interfaceAdapters.helper.ProductHelper;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductReservationDto;
+import br.com.productmanagement.interfaceadapters.helper.ProductHelper;
+import br.com.productmanagement.interfaceadapters.presenters.dto.ProductReservationDto;
 import br.com.productmanagement.util.enums.ReservationStatus;
+import br.com.productmanagement.util.exception.ValidationsException;
+import br.com.productmanagement.util.time.TimeUtils;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -33,9 +36,11 @@ public class ProductReservationBusiness {
 
     public ProductReservation newReservation(Product product, int requestedQuantity){
 
+        Discount discount;
+
         ProductReservation productReservation = new ProductReservation();
 
-        LocalDateTime dateTime = LocalDateTime.now();
+        LocalDateTime dateTime = TimeUtils.now();
 
         productReservation.setCreationDate(dateTime);
 
@@ -53,13 +58,21 @@ public class ProductReservationBusiness {
 
         productReservation.setReservationStatus(ReservationStatus.CREATED);
 
-        product.setDiscount(productHelper.validadeProductDiscount(product));
+        discount = productHelper.validadeProductDiscount(product);
 
-        if(product.getDiscount() != null){
+        if(discount.getId() != null){
 
-            productReservation.setDiscountId(product.getDiscount().getDiscountId());
+            productReservation.setAppliedDiscountValue(productHelper.calculateOrderDiscount(discount, requestedQuantity, reservationValue));
 
-            productReservation.setAppliedDiscount(productHelper.calculateOrderDiscount(product, requestedQuantity, reservationValue));
+            if(productReservation.getAppliedDiscountValue() > 0.0){
+
+                productReservation.setAppliedDiscountId(discount.getId().toString());
+
+            }else{
+
+                productReservation.setAppliedDiscountId(null);
+
+            }
 
         }
 
@@ -69,7 +82,9 @@ public class ProductReservationBusiness {
 
     public ProductReservation updateReservation(ProductReservation productReservation, Product product, int requestedQuantity){
 
-        productReservation.setUpdateDate(LocalDateTime.now());
+        Discount discount;
+
+        productReservation.setUpdateDate(TimeUtils.now());
 
         productReservation.setRequestedQuantity(requestedQuantity);
 
@@ -77,25 +92,42 @@ public class ProductReservationBusiness {
 
         productReservation.setReservationValue(reservationValue);
 
-        product.setDiscount(productHelper.validadeProductDiscount(product));
+        discount = productHelper.validadeProductDiscount(product);
 
         if(product.getDiscount() != null){
 
-            productReservation.setAppliedDiscount(productHelper.calculateOrderDiscount(product, requestedQuantity, reservationValue));
+            productReservation.setAppliedDiscountValue(productHelper.calculateOrderDiscount(discount, requestedQuantity, reservationValue));
 
-            if(productReservation.getAppliedDiscount() > 0){
+            if(productReservation.getAppliedDiscountValue() > 0){
 
-                productReservation.setDiscountId(product.getDiscount().getDiscountId());
+                productReservation.setAppliedDiscountId(discount.getId().toString());
 
             }else{
 
-                productReservation.setDiscountId(null);
+                productReservation.setAppliedDiscountId(null);
 
             }
 
         }
 
         return productReservation;
+
+    }
+
+    public ProductReservation reservationConfirmation(ProductReservation updReservation) throws ValidationsException {
+
+
+        if(updReservation.getReservationStatus() == ReservationStatus.CANCELLED){
+
+            throw new ValidationsException("0305", "Reserva", updReservation.getReservationId().toString());
+
+        }
+
+        updReservation.setUpdateDate(TimeUtils.now());
+
+        updReservation.setReservationStatus(ReservationStatus.CONFIRMED);
+
+        return updReservation;
 
     }
 

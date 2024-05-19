@@ -1,6 +1,7 @@
 package br.com.productmanagement.entities;
 
 import br.com.productmanagement.util.enums.ProductCategory;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -87,6 +89,10 @@ public class Product implements Serializable {
     @Column
     private double packagingWeight;
 
+    @Column
+    private LocalDateTime creationDate;
+
+    @Nullable
     @ManyToOne
     @JoinColumn(name = "discount_id")
     private Discount discount;

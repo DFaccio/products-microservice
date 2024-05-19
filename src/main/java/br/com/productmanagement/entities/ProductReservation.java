@@ -1,6 +1,7 @@
 package br.com.productmanagement.entities;
 
 import br.com.productmanagement.util.enums.ReservationStatus;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,10 +44,11 @@ public class ProductReservation implements Serializable {
     private double reservationValue;
 
     @Column
-    private double appliedDiscount;
+    private double appliedDiscountValue;
 
     @Column
-    private UUID discountId;
+    @Nullable
+    private String appliedDiscountId;
 
     @Column
     @Enumerated(value = EnumType.STRING)
