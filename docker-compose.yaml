@@ -20,7 +20,7 @@ services:
       - ./servers.json:/pgadmin4/servers.json
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: "facciodrums@gmail.com"
+      PGADMIN_DEFAULT_EMAIL: "products-ms@mail.com"
       PGADMIN_DEFAULT_PASSWORD: "postgres"
     ports:
       - "16543:80"

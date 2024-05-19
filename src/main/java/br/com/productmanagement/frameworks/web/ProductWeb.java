@@ -1,9 +1,7 @@
 package br.com.productmanagement.frameworks.web;
 
-import br.com.productmanagement.interfaceAdapters.controller.ProductController;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductReservationDto;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ReservationsDto;
+import br.com.productmanagement.interfaceadapters.controller.ProductController;
+import br.com.productmanagement.interfaceadapters.presenters.dto.ProductDto;
 import br.com.productmanagement.util.enums.ProductCategory;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
@@ -44,15 +42,15 @@ public class ProductWeb {
     @Operation(summary = "Consultar todos os produtos, podendo filtrar por nome, categoria ou fornecedor")
     @GetMapping(value = "/list")
     public ResponseEntity<PagedResponse<ProductDto>> findAll(@Parameter(description = "Default value 10. Max value 1000", example = "10")
-                                                                @RequestParam(required = false) Integer pageSize,
+                                                             @RequestParam(required = false) Integer pageSize,
                                                              @Parameter(description = "Default value 0", example = "0")
-                                                                @RequestParam(required = false) Integer initialPage,
+                                                             @RequestParam(required = false) Integer initialPage,
                                                              @Parameter(description = "Nome do produto", example = "creatina")
-                                                                @RequestParam(required = false) String name,
-                                                             @Parameter(description = "Categoria do produto", example = "saude")
-                                                                @RequestParam(required = false) ProductCategory category,
+                                                             @RequestParam(required = false) String name,
+                                                             @Parameter(description = "Categoria do produto")
+                                                             @RequestParam(required = false) ProductCategory category,
                                                              @Parameter(description = "Fornecedor", example = "max titanium")
-                                                                @RequestParam(required = false) String supplier) throws ValidationsException {
+                                                             @RequestParam(required = false) String supplier) throws ValidationsException {
 
         Pagination page = new Pagination(initialPage, pageSize);
         return ResponseEntity.ok(productController.findAll(page, name, category, supplier));

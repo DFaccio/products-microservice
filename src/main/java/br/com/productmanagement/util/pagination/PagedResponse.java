@@ -1,7 +1,7 @@
 package br.com.productmanagement.util.pagination;
 
 
-import br.com.productmanagement.interfaceAdapters.presenters.dto.Dto;
+import br.com.productmanagement.interfaceadapters.presenters.dto.Dto;
 import lombok.Getter;
 import lombok.Setter;
 
