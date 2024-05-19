@@ -10,9 +10,9 @@ public class SkuGenerator {
         String categoryCode = formatAttribute(category, 3);
         String brandCode = formatAttribute(brand, 4);
         String nameCode = formatAttribute(name, 3);
-        String modelCode = formatAttribute(model, 3);
-        String colorCode = formatAttribute(color, 3);
-        String sizeCode = formatAttribute(size, 4);
+        String modelCode = formatAttribute(model, 4);
+        String colorCode = formatAttribute(color, 4);
+        String sizeCode = formatAttribute(size, 5);
 
         return String.format("%s-%s-%s-%s-%s-%s", categoryCode, brandCode, nameCode, modelCode, colorCode, sizeCode);
     }

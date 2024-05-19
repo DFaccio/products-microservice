@@ -37,35 +37,11 @@ public class SpringBatchConfig {
     @Autowired
     private ProductRepository productRepository;
 
-//    private String fileName;
-
-//    @Value("#{jobParameters['startAt']}")
-//    private static String START;
-//
-//    @Value("#{jobParameters['startAt']}")
-//    private static String getCron(@Value("#{jobParameters['startAt']}") String startAt){
-//
-//        return startAt;
-//
-//    }
-
-//    @Bean(name = "productsJob")
-
-//    public void beforeStep(final StepExecution stepExecution) {
-//    @BeforeJob
-//    public void beforeStep(@Value("#{jobParameters['startAt']}") String startAt) {
-//        START = startAt;
-//        JobParameters parameters = stepExecution.getJobExecution().getJobParameters();
-//        fileName = parameters.getString("fileName");
-//    }
-
     @Bean
-//    @Scheduled(timeUnit = START)
     public Job job(JobRepository jobRepository, Step insertProduct) {
         return new JobBuilder("productsJob", jobRepository)
                 .start(insertProduct)
                 .build();
-
     }
 
     @Bean
@@ -95,7 +71,7 @@ public class SpringBatchConfig {
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
         lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
-        lineTokenizer.setNames("name", "description", "productCategory", "model", "available", "availableQuantity", "color", "size", "imageURL", "supplier", "brand", "price", "productHeight", "productWidth", "productDepth","productWeight", "packagingHeight", "packagingWidth", "packagingDepth", "packagingWeight", "discount.id");
+        lineTokenizer.setNames("name", "description", "productCategory", "model", "available", "availableQuantity", "color", "size", "imageURL", "supplier", "brand", "price", "productHeight", "productWidth", "productDepth","productWeight", "packagingHeight", "packagingWidth", "packagingDepth", "packagingWeight");
 
         BeanWrapperFieldSetMapper<Product> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(Product.class);

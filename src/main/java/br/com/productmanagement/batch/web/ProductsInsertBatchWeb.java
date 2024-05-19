@@ -1,6 +1,6 @@
 package br.com.productmanagement.batch.web;
 
-import br.com.productmanagement.batch.controller.ProductsInsertBatchController;
+import br.com.productmanagement.batch.controller.ProductBatchController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class ProductsInsertBatchWeb {
 
     @Resource
-    private ProductsInsertBatchController productsInsertBatchController;
+    private ProductBatchController productBatchController;
 
     @Operation(summary = "Envio de arquivo csv para carga de produtos em lote")
     @PostMapping(value = "/importProducts", consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -34,7 +34,7 @@ public class ProductsInsertBatchWeb {
 //            return ResponseEntity.badRequest().body("Favor anexar um arquivo.");
 //        }
 
-        return productsInsertBatchController.scheduleProductJob(file, timeToSchedule);
+        return productBatchController.scheduleProductJob(file, timeToSchedule);
 
     }
 
