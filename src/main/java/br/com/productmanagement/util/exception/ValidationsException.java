@@ -1,6 +1,5 @@
 package br.com.productmanagement.util.exception;
 
-
 import br.com.productmanagement.util.MessageUtil;
 
 public class ValidationsException extends Exception {

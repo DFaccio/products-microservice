@@ -1,0 +1,20 @@
+package br.com.productmanagement.interfaceadapters.presenters.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Dto {
+
+    // TODO
+//    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    private UUID id;
+
+}

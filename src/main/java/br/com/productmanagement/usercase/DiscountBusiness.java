@@ -1,7 +1,7 @@
 package br.com.productmanagement.usercase;
 
 import br.com.productmanagement.entities.Discount;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.DiscountDto;
+import br.com.productmanagement.interfaceadapters.presenters.dto.DiscountDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
