@@ -1,8 +1,8 @@
 package br.com.productmanagement.frameworks.web;
 
-import br.com.productmanagement.interfaceAdapters.controller.ProductReservationController;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductReservationDto;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ReservationsDto;
+import br.com.productmanagement.interfaceadapters.controller.ProductReservationController;
+import br.com.productmanagement.interfaceadapters.presenters.dto.ProductReservationDto;
+import br.com.productmanagement.interfaceadapters.presenters.dto.ReservationsDto;
 import br.com.productmanagement.util.enums.ReservationStatus;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
@@ -46,11 +46,11 @@ public class ProductReservationWeb {
     @Operation(summary = "Consulta todas as reservas, podendo filtrar por status")
     @GetMapping(value = "/list")
     public ResponseEntity<PagedResponse<ProductReservationDto>> findAll(@Parameter(description = "Default value 10. Max value 1000", example = "10")
-                                                             @RequestParam(required = false) Integer pageSize,
-                                                             @Parameter(description = "Default value 0", example = "0")
-                                                             @RequestParam(required = false) Integer initialPage,
-                                                             @Parameter(description = "Status da reserva", example = "CONFIRMED")
-                                                             @RequestParam(required = false)ReservationStatus reservationStatus) throws ValidationsException {
+                                                                        @RequestParam(required = false) Integer pageSize,
+                                                                        @Parameter(description = "Default value 0", example = "0")
+                                                                        @RequestParam(required = false) Integer initialPage,
+                                                                        @Parameter(description = "Status da reserva", example = "CONFIRMED")
+                                                                        @RequestParam(required = false)ReservationStatus reservationStatus) throws ValidationsException {
 
         Pagination page = new Pagination(initialPage, pageSize);
         return ResponseEntity.ok(productReservationController.findAll(page, reservationStatus));

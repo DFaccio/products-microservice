@@ -12,8 +12,6 @@ import java.util.UUID;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, UUID> {
 
-    Page<Product> findAll(Pageable pageable);
-
     Product findBySku(String sku);
 
     Page<Product> findByNameContainingIgnoreCaseAndSupplierContainingIgnoreCaseAndProductCategory(String name, String supplier, ProductCategory category, Pageable pageable);

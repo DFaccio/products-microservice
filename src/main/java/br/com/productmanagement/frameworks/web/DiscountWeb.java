@@ -1,7 +1,7 @@
 package br.com.productmanagement.frameworks.web;
 
-import br.com.productmanagement.interfaceAdapters.controller.DiscountController;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.DiscountDto;
+import br.com.productmanagement.interfaceadapters.controller.DiscountController;
+import br.com.productmanagement.interfaceadapters.presenters.dto.DiscountDto;
 import br.com.productmanagement.util.enums.ProductCategory;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
@@ -46,7 +46,7 @@ public class DiscountWeb {
     public ResponseEntity<PagedResponse<DiscountDto>> findAll(@Parameter(description = "Default value 10. Max value 1000", example = "10")
                                                               @RequestParam(required = false) Integer pageSize,
                                                               @Parameter(description = "Default value 0", example = "0")
-                                                              @RequestParam(required = false) Integer initialPage){
+                                                              @RequestParam(required = false) Integer initialPage) {
 
         Pagination page = new Pagination(initialPage, pageSize);
         return ResponseEntity.ok(discountController.findAll(page));

@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.productmanagement</groupId>
-	<artifactId>productManagement</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>productManagement</name>
+	<artifactId>product-management</artifactId>
+	<version>1.0.0</version>
+	<name>product-management</name>
 	<description>Sistema para gestão de produtos e estoque de um marketplace</description>
 	<properties>
 		<java.version>21</java.version>

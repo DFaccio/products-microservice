@@ -1,19 +1,15 @@
 package br.com.productmanagement.usercase;
 
 import br.com.productmanagement.entities.Product;
-import br.com.productmanagement.interfaceAdapters.helper.ProductHelper;
-import br.com.productmanagement.interfaceAdapters.presenters.dto.ProductDto;
+import br.com.productmanagement.interfaceadapters.helper.ProductHelper;
 import br.com.productmanagement.util.SkuGenerator;
 import br.com.productmanagement.util.enums.Operation;
 import br.com.productmanagement.util.exception.ValidationsException;
-import br.com.productmanagement.util.pagination.PagedResponse;
 import br.com.productmanagement.util.time.TimeUtils;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 public class ProductBusiness {
@@ -89,17 +85,13 @@ public class ProductBusiness {
 
     public Page<Product> checkForAvailableDiscount(Page<Product> product){
 
-        if(product.hasContent()){
+        product = product.map(prod -> {
 
-            product = product.map(prod -> {
+            prod.setDiscount(productHelper.validadeProductDiscount(prod));
 
-                prod.setDiscount(productHelper.validadeProductDiscount(prod));
+            return prod;
 
-                return prod;
-
-            });
-
-        }
+        });
 
         return product;
 
