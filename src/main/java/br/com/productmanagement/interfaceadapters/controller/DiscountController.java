@@ -72,7 +72,7 @@ public class DiscountController {
 
         if(optional.isEmpty()){
 
-            throw new ValidationsException("0200", "desconto", id.toString());
+            throw new ValidationsException("0200", "Desconto", id.toString());
 
         }
 
@@ -100,7 +100,7 @@ public class DiscountController {
 
         if(optional.isEmpty()){
 
-            throw new ValidationsException("0200", "cupom", coupon);
+            throw new ValidationsException("0200", "Cupom", coupon);
 
         }
 
@@ -116,7 +116,7 @@ public class DiscountController {
 
         if(optional.isEmpty()){
 
-            throw new ValidationsException("0200", "desconto", id.toString());
+            throw new ValidationsException("0200", "Desconto", id.toString());
 
         }
 
@@ -132,7 +132,7 @@ public class DiscountController {
 
         if(optional.isEmpty()){
 
-            throw new ValidationsException("0200", "desconto", category.toString());
+            throw new ValidationsException("0200", "Desconto", category.toString());
 
         }
 
