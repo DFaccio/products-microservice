@@ -14,6 +14,7 @@ import br.com.productmanagement.util.enums.ReservationStatus;
 import br.com.productmanagement.util.exception.ValidationsException;
 import br.com.productmanagement.util.pagination.PagedResponse;
 import br.com.productmanagement.util.pagination.Pagination;
+import br.com.productmanagement.util.time.TimeUtils;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -84,13 +85,26 @@ public class ProductReservationController {
 
             ProductReservation newReservation = new ProductReservation();
 
-            String sku = productReservationDto.getSku();
+            String sku;
+
+            int requestedQuantity;
+
+            if(productReservationDto.getSku() != null){
+                sku = productReservationDto.getSku();
+            }else{
+                throw new ValidationsException("0300");
+            }
+
+            if(productReservationDto.getRequestedQuantity() != null){
+                 requestedQuantity = productReservationDto.getRequestedQuantity();
+            }else{
+                throw new ValidationsException("0301");
+            }
 
             Product product = productGateway.findBySku(sku);
 
             int productDisponibility = product.getAvailableQuantity();
 
-            int requestedQuantity = productReservationDto.getRequestedQuantity();
 
             if(!productReservationBusiness.checkAvailableQuantity(productDisponibility, requestedQuantity)){
 
@@ -134,7 +148,27 @@ public class ProductReservationController {
 
             ProductReservationDto productReservation;
 
-            ProductReservation updReservation = productReservationGateway.findById(productReservationDto.getId());
+            UUID id;
+
+            int requestedQuantity;
+
+            if(productReservationDto.getId() != null){
+                id = productReservationDto.getId();
+            }else{
+                throw new ValidationsException("0302");
+            }
+
+            if(productReservationDto.getRequestedQuantity() != null){
+                requestedQuantity = productReservationDto.getRequestedQuantity();
+            }else{
+                throw new ValidationsException("0301");
+            }
+
+            ProductReservation updReservation = productReservationGateway.findById(id);
+
+            if(updReservation.getReservationStatus() == ReservationStatus.CONFIRMED){
+                throw new ValidationsException("0304");
+            }
 
             String sku = updReservation.getSku();
 
@@ -144,14 +178,11 @@ public class ProductReservationController {
 
             int reservedQuantity = updReservation.getRequestedQuantity();
 
-            int requestedQuantity = productReservationDto.getRequestedQuantity();
-
             int updStockQuantity;
 
             boolean increaseReservation = true;
 
             boolean updStockAndReservation = true;
-
 
             if(requestedQuantity == reservedQuantity) {
 
@@ -225,9 +256,17 @@ public class ProductReservationController {
 
             ProductReservationDto productReservation;
 
-            ProductReservation updReservation = productReservationGateway.findById(productReservationDto.getId());
+            UUID id;
 
-            updReservation.setUpdateDate(LocalDateTime.now());
+            if(productReservationDto.getId() != null){
+                id = productReservationDto.getId();
+            }else{
+                throw new ValidationsException("0302");
+            }
+
+            ProductReservation updReservation = productReservationGateway.findById(id);
+
+            updReservation.setUpdateDate(TimeUtils.now());
 
             updReservation.setReservationStatus(ReservationStatus.CONFIRMED);
 
@@ -255,7 +294,15 @@ public class ProductReservationController {
 
             ProductReservationDto productReservation;
 
-            ProductReservation updReservation = productReservationGateway.findById(productReservationDto.getId());
+            UUID id;
+
+            if(productReservationDto.getId() != null){
+                id = productReservationDto.getId();
+            }else{
+                throw new ValidationsException("0302");
+            }
+
+            ProductReservation updReservation = productReservationGateway.findById(id);
 
             String sku = updReservation.getSku();
 
@@ -265,7 +312,7 @@ public class ProductReservationController {
 
             int reservedQuantity = updReservation.getRequestedQuantity();
 
-            updReservation.setUpdateDate(LocalDateTime.now());
+            updReservation.setUpdateDate(TimeUtils.now());
 
             updReservation.setReservationStatus(ReservationStatus.CANCELLED);
 

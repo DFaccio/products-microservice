@@ -33,8 +33,6 @@ public class DiscountController {
 
     public DiscountDto insert(DiscountDto dto) throws ValidationsException {
 
-//      arrumar retorno de erro
-
         Discount discount = discountPresenter.convert(dto);
 
         if(discount.getProductCategory() != null){
@@ -43,14 +41,14 @@ public class DiscountController {
 
             if(optional.isPresent()){
 
-                new IllegalArgumentException(MessageUtil.getMessage("0201"));
-//                throw new ValidationsException("0201", "categoria", discount.getProductCategory().toString());
+//      arrumar retorno de erro
+
+//                new IllegalArgumentException(MessageUtil.getMessage("0201"));
+                throw new ValidationsException("0201", "categoria", discount.getProductCategory().toString());
 
             }
 
         }
-
-//      arrumar retorno de erro
 
         if(discount.getCoupon() != null){
 
@@ -58,12 +56,16 @@ public class DiscountController {
 
             if(optional.isPresent()){
 
-                new IllegalArgumentException(MessageUtil.getMessage("0202"));
-//                throw new ValidationsException("0202", "cupom", discount.getCoupon());
+//      arrumar retorno de erro
+
+//                new IllegalArgumentException(MessageUtil.getMessage("0202"));
+                throw new ValidationsException("0202", "cupom", discount.getCoupon());
 
             }
 
         }
+
+//        chamar business pra validar os dados recebidos (data, tipo de desconto, etc)
 
         discount = discountGateway.save(discount);
 
@@ -97,15 +99,17 @@ public class DiscountController {
 
     }
 
-    //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
-
     public DiscountDto findByCoupon(String coupon) throws ValidationsException {
 
         Optional<Discount> optional = discountGateway.findByCoupon(coupon);
 
         if(optional.isEmpty()){
+
+            //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
+
 //            throw new IllegalArgumentException(MessageUtil.getMessage("0200", "cupom", coupon));
             throw new ValidationsException("0200", "cupom", coupon);
+
         }
 
         Discount discount = optional.get();
@@ -113,15 +117,17 @@ public class DiscountController {
         return discountPresenter.convert(discount);
 
     }
-
-    //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
 
     public DiscountDto findById(UUID id) throws ValidationsException {
 
         Optional<Discount> optional = discountGateway.findById(id);
 
         if(optional.isEmpty()){
+
+            //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
+
             throw new ValidationsException("0200", "desconto", id.toString());
+
         }
 
         Discount discount = optional.get();
@@ -130,20 +136,21 @@ public class DiscountController {
 
     }
 
-    //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
-
     public DiscountDto findByProductCategory(ProductCategory category) throws ValidationsException {
 
         Optional<Discount> optional = discountGateway.findByProductCategory(category);
 
         if(optional.isEmpty()){
+
+            //    ARRUMAR MENSAGEM DE NÃO ENCONTRADO
+
             throw new ValidationsException("0200", "desconto", category.toString());
+
         }
 
         Discount discount = optional.get();
 
         return discountPresenter.convert(discount);
-
 
     }
 

@@ -1,4 +1,4 @@
-package br.com.productmanagement.util.documentation;
+package br.com.productmanagement.config.documentation;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -13,7 +13,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Microsserviço para controle estoque de produtos")
+                                .title("Microsserviço para controle de estoque de produtos")
                                 .description("APIs para cadastro e atualização de produtos, descontos e reservas")
                                 .version("1.0.0")
                 );

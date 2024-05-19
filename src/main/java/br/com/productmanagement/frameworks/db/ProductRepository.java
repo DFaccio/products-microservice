@@ -16,18 +16,18 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     Product findBySku(String sku);
 
-    Page<Product> findAllByNameContainsAndSupplierContainsAndProductCategory(String name, String supplier, ProductCategory category, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCaseAndSupplierContainingIgnoreCaseAndProductCategory(String name, String supplier, ProductCategory category, Pageable pageable);
 
-    Page<Product> findAllByNameContainsAndSupplierContains(String name, String supplier, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCaseAndSupplierContainingIgnoreCase(String name, String supplier, Pageable pageable);
 
-    Page<Product> findAllByNameContainsAndProductCategory(String name, ProductCategory category, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCaseAndProductCategory(String name, ProductCategory category, Pageable pageable);
 
-    Page<Product> findAllBySupplierContainsAndProductCategory(String supplier, ProductCategory category, Pageable pageable);
+    Page<Product> findBySupplierContainingIgnoreCaseAndProductCategory(String supplier, ProductCategory category, Pageable pageable);
 
-    Page<Product> findAllByNameContains(String name, Pageable pageable);
+    Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
 
-    Page<Product> findAllBySupplierContains(String supplier, Pageable pageable);
+    Page<Product> findBySupplierContainingIgnoreCase(String supplier, Pageable pageable);
 
-    Page<Product> findAllByProductCategory(ProductCategory category, Pageable pageable);
+    Page<Product> findByProductCategory(ProductCategory category, Pageable pageable);
 
 }

@@ -12,7 +12,7 @@ public class DiscountPresenter implements Presenter<Discount, DiscountDto>{
 
         DiscountDto discountDto = new DiscountDto();
 
-        discountDto.setId(document.getDiscountId());
+        discountDto.setId(document.getId());
         discountDto.setCoupon(document.getCoupon());
         discountDto.setDiscountType(document.getDiscountType());
         discountDto.setDescription(document.getDescription());
@@ -31,7 +31,7 @@ public class DiscountPresenter implements Presenter<Discount, DiscountDto>{
 
         Discount discount = new Discount();
 
-        discount.setDiscountId(dto.getId());
+        discount.setId(dto.getId());
         discount.setCoupon(dto.getCoupon());
         discount.setDiscountType(dto.getDiscountType());
         discount.setDescription(dto.getDescription());

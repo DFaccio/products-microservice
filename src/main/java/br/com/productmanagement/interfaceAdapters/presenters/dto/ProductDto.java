@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -100,6 +101,8 @@ public class ProductDto extends Dto implements Serializable {
     @NotNull
     @Schema(example = "350.7")
     private double packagingWeight;
+
+    private LocalDateTime creationDate;
 
     private DiscountDto discount;
 

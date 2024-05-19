@@ -39,7 +39,7 @@ public class ProductReservationDto extends Dto implements Serializable {
 
     private double appliedDiscount;
 
-    private UUID discountId;
+    private String discountId;
 
     private ReservationStatus reservationStatus;
 

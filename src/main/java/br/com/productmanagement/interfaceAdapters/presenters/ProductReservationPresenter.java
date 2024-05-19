@@ -18,8 +18,8 @@ public class ProductReservationPresenter implements Presenter<ProductReservation
         productReservationDto.setRequestedQuantity(document.getRequestedQuantity());
         productReservationDto.setName(document.getName());
         productReservationDto.setReservationValue(document.getReservationValue());
-        productReservationDto.setAppliedDiscount(document.getAppliedDiscount());
-        productReservationDto.setDiscountId(document.getDiscountId());
+        productReservationDto.setAppliedDiscount(document.getAppliedDiscountValue());
+        productReservationDto.setDiscountId(document.getAppliedDiscountId());
         productReservationDto.setReservationStatus(document.getReservationStatus());
 
         return productReservationDto;
@@ -37,8 +37,8 @@ public class ProductReservationPresenter implements Presenter<ProductReservation
         productReservation.setName(dto.getName());
         productReservation.setRequestedQuantity(dto.getRequestedQuantity());
         productReservation.setReservationValue(dto.getReservationValue());
-        productReservation.setAppliedDiscount(dto.getAppliedDiscount());
-        productReservation.setDiscountId(dto.getDiscountId());
+        productReservation.setAppliedDiscountValue(dto.getAppliedDiscount());
+        productReservation.setAppliedDiscountId(dto.getDiscountId());
         productReservation.setReservationStatus(dto.getReservationStatus());
 
 
