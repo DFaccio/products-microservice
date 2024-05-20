@@ -20,6 +20,6 @@ WORKDIR /product
 
 COPY --from=build /product/target/*.jar ./product-service.jar
 
-EXPOSE 7078
+EXPOSE 7077
 
 ENTRYPOINT ["java","-jar","product-service.jar"]

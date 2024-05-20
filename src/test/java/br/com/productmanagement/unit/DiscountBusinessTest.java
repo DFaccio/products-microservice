@@ -22,7 +22,7 @@ class DiscountBusinessTest extends TestUtils {
     @Test
     public void createTest() throws ValidationsException {
 
-        Discount discount= discountTestHelper.newDiscount();
+        Discount discount= discountTestHelper.createDiscount();
 
         discount = discountBusiness.create(discount);
 
@@ -33,7 +33,7 @@ class DiscountBusinessTest extends TestUtils {
     @Test
     public void updateTest() throws ValidationsException {
 
-        Discount discount= discountTestHelper.newDiscount();
+        Discount discount= discountTestHelper.createDiscount();
 
         DiscountDto discountDto= discountTestHelper.discountUpd();
 

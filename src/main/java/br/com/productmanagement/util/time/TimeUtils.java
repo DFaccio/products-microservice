@@ -1,8 +1,6 @@
 package br.com.productmanagement.util.time;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public interface TimeUtils {
@@ -15,9 +13,21 @@ public interface TimeUtils {
         return LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
     }
 
+    static LocalDateTime getTime() {
+        return LocalDateTime.now()
+                .atZone(ZoneId.of("America/Sao_Paulo"))
+                .toLocalDateTime();
+    }
+
+
     static LocalDateTime now() {
         Clock clock = Clock.system(getZoneId());
 
         return LocalDateTime.now(clock);
     }
+
+    static long getDurationBetweenInSeconds(LocalDateTime start, LocalDateTime end) {
+        return Duration.between(start, end).toSeconds();
+    }
+
 }

@@ -1,0 +1,41 @@
+[
+  {
+    "discountType": "PERCENTAGE",
+    "description": "Adquira 2% de desconto na compra a partir de 3 unidades",
+    "discountValue": 2,
+    "discountStartDate": "2024-05-20T00:00:00Z",
+    "discountFinishDate": "2024-07-30T23:59:59Z",
+    "minimumQuantityToDiscount": 3,
+    "productCategory": "FERRAMENTAS",
+    "active": true
+  },
+  {
+    "discountType": "PERCENTAGE",
+    "description": "Adquira 2% de desconto na compra a partir de 3 unidades",
+    "discountValue": 2,
+    "discountStartDate": "2024-05-20T00:00:00Z",
+    "discountFinishDate": "2024-07-30T23:59:59Z",
+    "minimumQuantityToDiscount": 3,
+    "productCategory": "INFORMATICA",
+    "active": true
+  },
+  {
+    "discountType": "PERCENTAGE",
+    "description": "Adquira 2% de desconto na compra a partir de 3 unidades",
+    "discountValue": 2,
+    "discountStartDate": "2024-05-20T00:00:00Z",
+    "discountFinishDate": "2024-07-30T23:59:59Z",
+    "minimumQuantityToDiscount": 3,
+    "productCategory": "CARRO",
+    "active": true
+  },
+  {
+    "coupon": "FIAP02",
+    "discountType": "PERCENTAGE",
+    "description": "Adquira 2% de desconto na compra",
+    "discountValue": 2,
+    "discountStartDate": "2024-05-20T00:00:00Z",
+    "discountFinishDate": "2024-07-30T23:59:59Z",
+    "active": true
+  }
+]

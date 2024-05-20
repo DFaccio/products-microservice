@@ -1,0 +1,35 @@
+[
+  {
+    "creationDate": "2024-05-20T01:23:48.904Z",
+    "updateDate": "2024-05-20T01:23:48.904Z",
+    "sku": "SAU-MAXT-CRE-CREA-SEMS-250",
+    "productDisponibility": 50,
+    "name": "Creatina Creapure Pote 250g Max Titanium Sabor Sem sabor",
+    "productValue": 29.9,
+    "requestedQuantity": 1,
+    "reservationValue": 29.9,
+    "reservationStatus": "CREATED"
+  },
+  {
+    "creationDate": "2024-05-20T01:23:48.904Z",
+    "updateDate": "2024-05-20T01:23:48.904Z",
+    "sku": "SAU-MAXT-CRE-CREA-SEMS-250",
+    "productDisponibility": 50,
+    "name": "Creatina Creapure Pote 250g Max Titanium Sabor Sem sabor",
+    "productValue": 29.9,
+    "requestedQuantity": 1,
+    "reservationValue": 29.9,
+    "reservationStatus": "CONFIRMED"
+  },
+  {
+    "creationDate": "2024-05-20T01:23:48.904Z",
+    "updateDate": "2024-05-20T01:23:48.904Z",
+    "sku": "SAU-MAXT-CRE-CREA-SEMS-250",
+    "productDisponibility": 50,
+    "name": "Creatina Creapure Pote 250g Max Titanium Sabor Sem sabor",
+    "productValue": 29.9,
+    "requestedQuantity": 1,
+    "reservationValue": 29.9,
+    "reservationStatus": "CANCELLED"
+  }
+]
