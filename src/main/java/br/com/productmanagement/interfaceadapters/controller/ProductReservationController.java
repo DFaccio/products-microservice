@@ -16,16 +16,24 @@ import br.com.productmanagement.util.pagination.PagedResponse;
 import br.com.productmanagement.util.pagination.Pagination;
 import br.com.productmanagement.util.time.TimeUtils;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Component
+@EnableScheduling
+@Slf4j
 public class ProductReservationController {
 
     @Resource
@@ -42,6 +50,8 @@ public class ProductReservationController {
 
     @Resource
     private ProductReservationPresenter productReservationPresenter;
+
+    private static final Integer EXPIRATION = 20;
 
     public PagedResponse<ProductReservationDto> findAll(Pagination pagination, ReservationStatus reservationStatus) throws ValidationsException {
 
@@ -166,7 +176,13 @@ public class ProductReservationController {
             ProductReservation updReservation = productReservationGateway.findById(id);
 
             if(updReservation.getReservationStatus() == ReservationStatus.CONFIRMED){
+
                 throw new ValidationsException("0304");
+
+            }else if(updReservation.getReservationStatus() == ReservationStatus.EXPIRED){
+
+                throw new ValidationsException("0307", "Reserva", updReservation.getReservationId().toString());
+
             }
 
             String sku = updReservation.getSku();
@@ -301,6 +317,12 @@ public class ProductReservationController {
 
             ProductReservation updReservation = productReservationGateway.findById(id);
 
+            if(updReservation.getReservationStatus() == ReservationStatus.EXPIRED){
+
+                throw new ValidationsException("0308", "Reserva", updReservation.getReservationId().toString());
+
+            }
+
             String sku = updReservation.getSku();
 
             Product product = productGateway.findBySku(sku);
@@ -332,6 +354,50 @@ public class ProductReservationController {
         reservations.setReservations(productReservationDtoList);
 
         return reservations;
+
+    }
+
+    @Scheduled(fixedRateString = "${time.to.expire.created.reservations}", timeUnit = TimeUnit.MINUTES)
+    public void reservationExpirationCheck() {
+        log.info("Verificação de reservas a expirar iniciada");
+
+        List<ProductReservation> productReservation = productReservationGateway.findAllByReservationStatus(ReservationStatus.CREATED);
+
+        productReservation.forEach(reservation -> {
+
+            Duration duration = Duration.between(reservation.getUpdateDate(), TimeUtils.now());
+            long minutes = duration.toMinutes() % 60;
+
+            if (minutes > EXPIRATION) {
+
+                log.info("Reserva " + reservation.getReservationId() + " expirada após 20 minutos sem alterações!");
+                reservation.setReservationStatus(ReservationStatus.EXPIRED);
+                reservation.setUpdateDate(TimeUtils.now());
+
+                productReservationGateway.save(reservation);
+
+                retrieveProductKeepingByReservationExpiration(reservation);
+
+            }
+        });
+
+        log.info("Verificação de reservas a expirar concluída");
+
+    }
+
+    public void retrieveProductKeepingByReservationExpiration(ProductReservation productReservation){
+
+        String sku = productReservation.getSku();
+
+        Product product = productGateway.findBySku(sku);
+
+        int productDisponibility = product.getAvailableQuantity();
+
+        int reservedQuantity = productReservation.getRequestedQuantity();
+
+        product = productHelper.updateProductKeeping(product, productDisponibility, reservedQuantity, Operation.RESERVATION_EXPIRATION);
+
+        productGateway.save(product);
 
     }
 

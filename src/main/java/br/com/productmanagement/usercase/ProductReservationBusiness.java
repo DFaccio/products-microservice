@@ -80,7 +80,7 @@ public class ProductReservationBusiness {
 
     }
 
-    public ProductReservation updateReservation(ProductReservation productReservation, Product product, int requestedQuantity){
+    public ProductReservation updateReservation(ProductReservation productReservation, Product product, int requestedQuantity) throws ValidationsException {
 
         Discount discount;
 
@@ -120,6 +120,10 @@ public class ProductReservationBusiness {
         if(updReservation.getReservationStatus() == ReservationStatus.CANCELLED){
 
             throw new ValidationsException("0305", "Reserva", updReservation.getReservationId().toString());
+
+        }else if(updReservation.getReservationStatus() == ReservationStatus.EXPIRED){
+
+            throw new ValidationsException("0306", "Reserva", updReservation.getReservationId().toString());
 
         }
 
