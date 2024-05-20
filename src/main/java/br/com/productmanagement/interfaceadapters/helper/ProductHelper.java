@@ -123,7 +123,7 @@ public class ProductHelper {
 
         }
 
-        if(operation == Operation.ARRIVAL || operation == Operation.RESERVATION_CANCELLATION || operation == Operation.RESERVATION_GIVEUP){
+        if(operation == Operation.ARRIVAL || operation == Operation.RESERVATION_CANCELLATION || operation == Operation.RESERVATION_GIVEUP || operation == Operation.RESERVATION_EXPIRATION){
 
             product.setAvailableQuantity(productQuantity + updateQuantity);
 

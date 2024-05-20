@@ -23,6 +23,67 @@ public class DiscountTestHelper {
         discount.setDiscountType(DiscountType.PERCENTAGE);
         discount.setDescription("Ganhe 2% de desconto na compra a partir de 3 unidades");;
         discount.setDiscountValue(2);
+        discount.setCreationDate(TimeUtils.now());
+        discount.setDiscountStartDate(start);
+        discount.setDiscountFinishDate(finish);
+        discount.setMinimumQuantityToDiscount(3);
+        discount.setProductCategory(ProductCategory.SAUDE);
+        discount.setActive(true);
+
+        return discount;
+
+    }
+
+    public DiscountDto newDiscountDto(){
+
+        DiscountDto discountDto = new DiscountDto();
+
+        LocalDateTime start = TimeUtils.now().plusDays(Constants.PLUS_1_DAY);
+        LocalDateTime finish = TimeUtils.now().plusDays(Constants.PLUS_10_DAYS);
+
+        discountDto.setDiscountType(DiscountType.PERCENTAGE);
+        discountDto.setDescription("Ganhe 2% de desconto na compra a partir de 3 unidades");;
+        discountDto.setDiscountValue(2);
+        discountDto.setDiscountStartDate(start);
+        discountDto.setDiscountFinishDate(finish);
+        discountDto.setMinimumQuantityToDiscount(3);
+        discountDto.setProductCategory(ProductCategory.INFORMATICA);
+        discountDto.setActive(true);
+
+        return discountDto;
+
+    }
+
+    public DiscountDto updateDiscountDto(){
+
+        DiscountDto discountDto = new DiscountDto();
+
+        LocalDateTime start = TimeUtils.now().plusDays(Constants.PLUS_1_DAY);
+        LocalDateTime finish = TimeUtils.now().plusDays(Constants.PLUS_10_DAYS);
+
+        discountDto.setDiscountType(DiscountType.PERCENTAGE);
+        discountDto.setDescription("Ganhe 5% de desconto na compra a partir de 3 unidades");;
+        discountDto.setDiscountValue(5);
+        discountDto.setDiscountStartDate(start);
+        discountDto.setDiscountFinishDate(finish);
+        discountDto.setMinimumQuantityToDiscount(3);
+        discountDto.setProductCategory(ProductCategory.SAUDE);
+        discountDto.setActive(true);
+
+        return discountDto;
+
+    }
+
+    public Discount createDiscount(){
+
+        Discount discount = new Discount();
+
+        LocalDateTime start = TimeUtils.now().plusDays(Constants.PLUS_1_DAY);
+        LocalDateTime finish = TimeUtils.now().plusDays(Constants.PLUS_10_DAYS);
+
+        discount.setDiscountType(DiscountType.PERCENTAGE);
+        discount.setDescription("Ganhe 2% de desconto na compra a partir de 3 unidades");;
+        discount.setDiscountValue(2);
         discount.setDiscountStartDate(start);
         discount.setDiscountFinishDate(finish);
         discount.setMinimumQuantityToDiscount(3);

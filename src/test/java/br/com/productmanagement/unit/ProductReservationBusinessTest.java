@@ -52,7 +52,7 @@ class ProductReservationBusinessTest extends TestUtils {
     }
 
     @Test
-    public void updateReservationTest(){
+    public void updateReservationTest() throws ValidationsException {
 
         Product product = productTestHelper.newProduct();
 

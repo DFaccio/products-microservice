@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,6 +38,12 @@ public class ProductReservationGateway {
     public Page<ProductReservation> findAllByReservationStatus(Pageable pageable, ReservationStatus reservationStatus) {
 
         return productReservationRepository.findAllByReservationStatus(pageable, reservationStatus);
+
+    }
+
+    public List<ProductReservation> findAllByReservationStatus(ReservationStatus reservationStatus) {
+
+        return productReservationRepository.findAllByReservationStatus(reservationStatus);
 
     }
 

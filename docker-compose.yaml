@@ -8,7 +8,7 @@ services:
     networks:
       - product-service-network
     environment:
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_PASSWORD: "products-ms"
       POSTGRES_DB: "productsKeeping"
     ports:
       - "15432:5432"
@@ -21,11 +21,27 @@ services:
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: "products-ms@mail.com"
-      PGADMIN_DEFAULT_PASSWORD: "postgres"
+      PGADMIN_DEFAULT_PASSWORD: "products-ms"
     ports:
       - "16543:80"
     depends_on:
       - postgres
+    networks:
+      - product-service-network
+
+  products-ms:
+    build:
+      context: .
+    container_name: products-ms
+    ports:
+      - "7077:8080"
+    depends_on:
+      - pgadmin
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/productsKeeping"
+      SPRING_DATASOURCE_USERNAME: "postgres"
+      SPRING_DATASOURCE_PASSWORD: "products-ms"
     networks:
       - product-service-network
 
