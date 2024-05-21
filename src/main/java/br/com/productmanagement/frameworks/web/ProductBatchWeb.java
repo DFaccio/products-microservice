@@ -25,13 +25,9 @@ public class ProductBatchWeb {
 
     @Operation(summary = "Envio de arquivo csv para carga de produtos em lote")
     @PostMapping(value = "/importProducts", consumes= MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> importProducts(@RequestParam("file") MultipartFile file,
-                                         @Parameter(description = "Data e hora que o arquivo deverá ser executado." +
-                                                 " Não preencher se quiser que a execução seja imediata."
-                                                 , example = "2024-05-31T15:00:00.000000")
-                                         @RequestParam(required = false) LocalDateTime timeToSchedule) {
+    public ResponseEntity<?> importProducts(@RequestParam("file") MultipartFile file) {
 
-        return productBatchController.scheduleProductJob(file, timeToSchedule);
+        return productBatchController.scheduleProductJob(file);
 
     }
 
