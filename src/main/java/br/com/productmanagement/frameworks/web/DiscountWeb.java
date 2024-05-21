@@ -32,7 +32,7 @@ public class DiscountWeb {
 
     }
 
-    @Operation(summary = "Atualiza um novo desconto")
+    @Operation(summary = "Atualiza um desconto")
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<DiscountDto> update(@PathVariable UUID id,
                                               @Valid @RequestBody DiscountDto dto) throws ValidationsException {
