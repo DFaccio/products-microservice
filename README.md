@@ -55,7 +55,7 @@
     Se aquantidade alterada for para menor, a diferença é devolvida para o estoque.
     Ao cancelar uma reserva, ela não poderá mais ser confirmada, sendo necessário criar uma nova reserva.
     Uma reserva confirmada poderá ser cancelada, devolvendo a quantidade reservada ao estoque.
-    As reservas no status CREATED expiram após 20 minutos da sua última atualização caso não sejam confirmadas, e a quantidade reservada será devolvida ao estoque.
+    As reservas no status CREATED expiram após 30 minutos da sua última atualização caso não sejam confirmadas, e a quantidade reservada será devolvida ao estoque.
     Reservas expiradas não podem ser confirmadas, alteradas ou canceladas.
 
     Para carga de produtos, pode-se utilizar o arquivo products.csv na raiz do projeto, e enviar o arquivo pelo endpoint /productBatch/importProducts

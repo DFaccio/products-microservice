@@ -51,7 +51,7 @@ public class ProductReservationController {
     @Resource
     private ProductReservationPresenter productReservationPresenter;
 
-    private static final Integer EXPIRATION = 20;
+    private static final Integer EXPIRATION = 30;
 
     public PagedResponse<ProductReservationDto> findAll(Pagination pagination, ReservationStatus reservationStatus) throws ValidationsException {
 
