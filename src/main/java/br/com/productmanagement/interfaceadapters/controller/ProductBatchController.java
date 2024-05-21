@@ -34,11 +34,9 @@ public class ProductBatchController {
     @Autowired
     private Job job;
 
-    private static final int MINUTE_PLUS = 2;
-
     private final Path root = Paths.get("products/uploads");
 
-    public ResponseEntity<?> scheduleProductJob(MultipartFile file, LocalDateTime timeToSchedule) {
+    public ResponseEntity<?> scheduleProductJob(MultipartFile file) {
 
         try {
 
@@ -48,25 +46,14 @@ public class ProductBatchController {
 
             }
 
-            if( timeToSchedule == null || timeToSchedule.isBefore(LocalDateTime.now())){
-
-                timeToSchedule = TimeUtils.now().plusMinutes(MINUTE_PLUS);
-
-            }
+            LocalDateTime timeToSchedule = TimeUtils.now();
 
             Path path = getPath(file, timeToSchedule);
 
             Files.copy(file.getInputStream(), path);
 
-            ZonedDateTime saoPauloDateTime = LocalDateTime.now().atZone(TimeUtils.getZoneId());
-
-            Instant instant = saoPauloDateTime.toInstant();
-
-            long scheduledTime = instant.toEpochMilli();
-
             JobParameters jobParameters = new JobParametersBuilder()
-                    .addString("fileName", path.toString())
-                    .addLong("startAt", scheduledTime).toJobParameters();
+                    .addString("fileName", path.toString()).toJobParameters();
 
             jobLauncher.run(job, jobParameters);
 
