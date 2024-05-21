@@ -22,7 +22,7 @@ public class ProductWeb {
     @Resource
     private ProductController productController;
 
-    @Operation(summary = "Insere um novo produto")
+    @Operation(summary = " Cria um novo produto")
     @PostMapping(value = "/create")
     public ResponseEntity<ProductDto> insert(@Valid @RequestBody ProductDto dto) throws ValidationsException {
 

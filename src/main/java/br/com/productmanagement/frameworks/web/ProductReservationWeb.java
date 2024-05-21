@@ -26,7 +26,7 @@ public class ProductReservationWeb {
     private ProductReservationController productReservationController;
 
 
-    @Operation(summary = "Atualiza o estoque de produtos a partir de uma ou mais reservas novas")
+    @Operation(summary = "Cria uma ou mais reservas e atualiza o estoque de produtos")
     @PostMapping(value = "/create")
     public ResponseEntity<ReservationsDto> newReservation(@Valid @RequestBody ReservationsDto reservationsDto) throws ValidationsException {
 
@@ -58,7 +58,7 @@ public class ProductReservationWeb {
     }
 
 
-    @Operation(summary = "Atualiza uma reserva ou mais reservas e o estoque de produtos a partir de uma mudança em uma ou mais reservas")
+    @Operation(summary = "Atualiza uma ou mais reservas e o estoque de produtos")
     @PutMapping(value = "/update")
     public ResponseEntity<ReservationsDto> reservationUpdate(@Valid @RequestBody ReservationsDto reservationsDto) throws ValidationsException {
 
@@ -66,7 +66,7 @@ public class ProductReservationWeb {
 
     }
 
-    @Operation(summary = "Atualiza o status de uma ou mais reservas de produtos")
+    @Operation(summary = "Confirma uma ou mais reservas de produtos")
     @PutMapping(value = "/confirmation")
     public ResponseEntity<ReservationsDto> reservationConfirmation(@Valid @RequestBody ReservationsDto reservationsDto) throws ValidationsException {
 
@@ -74,7 +74,7 @@ public class ProductReservationWeb {
 
     }
 
-    @Operation(summary = "Atualiza o estoque de produtos a partir do cancelamento de uma reserva ou mais reservas")
+    @Operation(summary = "Cancale uma ou mais reservas e etualiza o estoque de produtos")
     @PutMapping(value = "/cancellation")
     public ResponseEntity<ReservationsDto> reservationCancellation(@Valid @RequestBody ReservationsDto reservationsDto) throws ValidationsException {
 
