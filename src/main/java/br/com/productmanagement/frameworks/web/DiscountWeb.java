@@ -24,7 +24,7 @@ public class DiscountWeb {
     @Resource
     private DiscountController discountController;
 
-    @Operation(summary = "Insere um novo desconto")
+    @Operation(summary = "Cria um novo desconto")
     @PostMapping(value = "/create")
     public ResponseEntity<DiscountDto> insert(@Valid @RequestBody DiscountDto dto) throws ValidationsException {
 
@@ -32,7 +32,7 @@ public class DiscountWeb {
 
     }
 
-    @Operation(summary = "Insere um novo desconto")
+    @Operation(summary = "Atualiza um novo desconto")
     @PutMapping(value = "/update/{id}")
     public ResponseEntity<DiscountDto> update(@PathVariable UUID id,
                                               @Valid @RequestBody DiscountDto dto) throws ValidationsException {
