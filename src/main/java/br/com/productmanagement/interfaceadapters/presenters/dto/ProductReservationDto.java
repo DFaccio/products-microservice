@@ -1,6 +1,7 @@
 package br.com.productmanagement.interfaceadapters.presenters.dto;
 
 import br.com.productmanagement.util.enums.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductReservationDto extends Dto implements Serializable {
 
     private LocalDateTime creationDate;

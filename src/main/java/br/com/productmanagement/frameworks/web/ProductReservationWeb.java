@@ -67,15 +67,15 @@ public class ProductReservationWeb {
     }
 
     @Operation(summary = "Confirma uma ou mais reservas de produtos")
-    @PutMapping(value = "/confirmation")
+    @PutMapping(value = "/confirmation", consumes = "application/json")
     public ResponseEntity<ReservationsDto> reservationConfirmation(@Valid @RequestBody ReservationsDto reservationsDto) throws ValidationsException {
 
         return ResponseEntity.ok(productReservationController.reservationConfirmation(reservationsDto));
 
     }
 
-    @Operation(summary = "Cancale uma ou mais reservas e atualiza o estoque de produtos")
-    @PutMapping(value = "/cancellation")
+    @Operation(summary = "Cancela uma ou mais reservas e atualiza o estoque de produtos")
+    @PutMapping(value = "/cancellation", consumes = "application/json")
     public ResponseEntity<ReservationsDto> reservationCancellation(@Valid @RequestBody ReservationsDto reservationsDto) throws ValidationsException {
 
         return ResponseEntity.ok(productReservationController.reservationCancellation(reservationsDto));
