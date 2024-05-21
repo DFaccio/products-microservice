@@ -74,7 +74,7 @@ public class ProductReservationWeb {
 
     }
 
-    @Operation(summary = "Cancela uma ou mais reservas e etualiza o estoque de produtos")
+    @Operation(summary = "Cancela uma ou mais reservas e atualiza o estoque de produtos")
     @PutMapping(value = "/cancellation", consumes = "application/json")
     public ResponseEntity<ReservationsDto> reservationCancellation(@Valid @RequestBody ReservationsDto reservationsDto) throws ValidationsException {
 
