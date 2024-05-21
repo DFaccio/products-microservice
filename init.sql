@@ -1,1 +1,1 @@
-CREATE DATABASE productsKeeping;
+CREATE DATABASE products;
